@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="基础梳理,数据结构,JVM," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="源码初始化部分实现了Serializable, Comparable, CharSequence三个接口，分别是序列化，compareTo，和CharSequence,第三个主要继承了一些常用方法，length,charAt, subSequence等，subSequence类似subString，效果相同，返回值类型有区别，基本不做使用 12345678     public final cla">
+<meta property="og:type" content="article">
+<meta property="og:title" content="String与JVM">
+<meta property="og:url" content="http://example.com/undefined/String%E4%B8%8EJVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="巴卡玛卡">
+<meta property="og:description" content="源码初始化部分实现了Serializable, Comparable, CharSequence三个接口，分别是序列化，compareTo，和CharSequence,第三个主要继承了一些常用方法，length,charAt, subSequence等，subSequence类似subString，效果相同，返回值类型有区别，基本不做使用 12345678     public final cla">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-12-24T06:20:45.504Z">
+<meta property="article:modified_time" content="2020-12-24T06:16:25.777Z">
+<meta property="article:author" content="人和">
+<meta property="article:tag" content="基础梳理">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/undefined/String与JVM学习笔记/"/>
+
+
+
+
+
+  <title>String与JVM | 巴卡玛卡</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">巴卡玛卡</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">subTitle</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+<a target="_blank" rel="noopener" href="https://your-url" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/undefined/String%E4%B8%8EJVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="人和">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/panda.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="巴卡玛卡">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">String与JVM</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-24T14:20:45+08:00">
+                2020-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><h3 id="初始化部分"><a href="#初始化部分" class="headerlink" title="初始化部分"></a>初始化部分</h3><p>实现了<strong>Serializable, Comparable, CharSequence</strong>三个接口，分别是序列化，compareTo，和CharSequence,第三个主要继承了一些常用方法，length,charAt, subSequence等，subSequence类似subString，效果相同，返回值类型有区别，基本不做使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">     public final class String</span><br><span class="line">     implements java.io.Serializable, Comparable&lt;String&gt;, CharSequence &#123;</span><br><span class="line">&#x2F;&#x2F;     存储空间，字符数组形式</span><br><span class="line">    private final char value[];</span><br><span class="line">&#x2F;&#x2F;    hashcode缓存，String常用于比较，每次计算太过麻烦，这样节省时间</span><br><span class="line">    private int hash; </span><br><span class="line">&#x2F;&#x2F;    序列号(尚未理解)</span><br><span class="line">    private static final long serialVersionUID &#x3D; -6849794470754667710L;</span><br></pre></td></tr></table></figure>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>复制 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;内部方法，将String的字符数组value整个复制到dst字符数组中，在dst数组的dstBegin位置开始拷贝</span><br><span class="line">void getChars(char dst[], int dstBegin) &#123;</span><br><span class="line">        System.arraycopy(value, 0, dst, dstBegin, value.length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public void getChars(int srcBegin, int srcEnd, char dst[], int dstBegin) &#123;</span><br><span class="line">        if (srcBegin &lt; 0) &#123;</span><br><span class="line">            throw new StringIndexOutOfBoundsException(srcBegin);</span><br><span class="line">        &#125;</span><br><span class="line">        if (srcEnd &gt; value.length) &#123;</span><br><span class="line">            throw new StringIndexOutOfBoundsException(srcEnd);</span><br><span class="line">        &#125;</span><br><span class="line">        if (srcBegin &gt; srcEnd) &#123;</span><br><span class="line">            throw new StringIndexOutOfBoundsException(srcEnd - srcBegin);</span><br><span class="line">        &#125;</span><br><span class="line">        System.arraycopy(value, srcBegin, dst, dstBegin, srcEnd - srcBegin);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>对比</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public boolean equals(Object anObject) &#123;</span><br><span class="line">&#x2F;&#x2F;如果对象引用地址相同</span><br><span class="line">        if (this &#x3D;&#x3D; anObject) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">&#x2F;&#x2F;这个是？存疑</span><br><span class="line">        if (anObject instanceof String) &#123;</span><br><span class="line">            String anotherString &#x3D; (String)anObject;</span><br><span class="line">            int n &#x3D; value.length;</span><br><span class="line">&#x2F;&#x2F;字符数组长度相同</span><br><span class="line">            if (n &#x3D;&#x3D; anotherString.value.length) &#123;</span><br><span class="line">                char v1[] &#x3D; value;</span><br><span class="line">                char v2[] &#x3D; anotherString.value;</span><br><span class="line">                int i &#x3D; 0;</span><br><span class="line">&#x2F;&#x2F;每个字符相同</span><br><span class="line">                while (n-- !&#x3D; 0) &#123;</span><br><span class="line">                    if (v1[i] !&#x3D; v2[i])</span><br><span class="line">                        return false;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>比较(留待补充)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public int compareTo(String anotherString) &#123;</span><br><span class="line">       int len1 &#x3D; value.length;</span><br><span class="line">       int len2 &#x3D; anotherString.value.length;</span><br><span class="line">       int lim &#x3D; Math.min(len1, len2);</span><br><span class="line">       char v1[] &#x3D; value;</span><br><span class="line">       char v2[] &#x3D; anotherString.value;</span><br><span class="line"></span><br><span class="line">       int k &#x3D; 0;</span><br><span class="line">       while (k &lt; lim) &#123;</span><br><span class="line">           char c1 &#x3D; v1[k];</span><br><span class="line">           char c2 &#x3D; v2[k];</span><br><span class="line">           if (c1 !&#x3D; c2) &#123;</span><br><span class="line">               return c1 - c2;</span><br><span class="line">           &#125;</span><br><span class="line">           k++;</span><br><span class="line">       &#125;</span><br><span class="line">       return len1 - len2;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>切割</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> public String substring(int beginIndex, int endIndex) &#123;</span><br><span class="line">        if (beginIndex &lt; 0) &#123;</span><br><span class="line">            throw new StringIndexOutOfBoundsException(beginIndex);</span><br><span class="line">        &#125;</span><br><span class="line">        if (endIndex &gt; value.length) &#123;</span><br><span class="line">            throw new StringIndexOutOfBoundsException(endIndex);</span><br><span class="line">        &#125;</span><br><span class="line">        int subLen &#x3D; endIndex - beginIndex;</span><br><span class="line">        if (subLen &lt; 0) &#123;</span><br><span class="line">            throw new StringIndexOutOfBoundsException(subLen);</span><br><span class="line">        &#125;</span><br><span class="line">&#x2F;&#x2F;生成新对象</span><br><span class="line">        return ((beginIndex &#x3D;&#x3D; 0) &amp;&amp; (endIndex &#x3D;&#x3D; value.length)) ? this</span><br><span class="line">                : new String(value, beginIndex, subLen);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> 替换(留待补充)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> public String replace(char oldChar, char newChar) &#123;</span><br><span class="line">        if (oldChar !&#x3D; newChar) &#123;</span><br><span class="line">            int len &#x3D; value.length;</span><br><span class="line">            int i &#x3D; -1;</span><br><span class="line">            char[] val &#x3D; value; &#x2F;* avoid getfield opcode *&#x2F;</span><br><span class="line"></span><br><span class="line">            while (++i &lt; len) &#123;</span><br><span class="line">                if (val[i] &#x3D;&#x3D; oldChar) &#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (i &lt; len) &#123;</span><br><span class="line">                char buf[] &#x3D; new char[len];</span><br><span class="line">                for (int j &#x3D; 0; j &lt; i; j++) &#123;</span><br><span class="line">                    buf[j] &#x3D; val[j];</span><br><span class="line">                &#125;</span><br><span class="line">                while (i &lt; len) &#123;</span><br><span class="line">                    char c &#x3D; val[i];</span><br><span class="line">&#x2F;&#x2F;替换</span><br><span class="line">                    buf[i] &#x3D; (c &#x3D;&#x3D; oldChar) ? newChar : c;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                return new String(buf, true);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>从以上源码也可以看出，<strong>对String对象的任何改变都不影响到原对象，相关的任何change操作都会生成新的对象</strong></p>
+<h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><p>这里有个概念，叫做<strong>享元模式(Flyweight)**，我的理解是共享常量池中已有的元素，减少内存开支<br>创建方式分两种<br>1.String a = “a”;<br>创建时，jvm会先判断常量池中是否已经存在”a”，若存在则直接引用，若不存在则实例化该字符串再引用<br>最后，栈中存储了字符串常量池中”a”的引用地址<br>2.String b = new String(“A”);<br>先new一个字符串对象放在堆中，而堆中存储的则是指向常量池中”A”的引用地址，对于常量池引用地址的获取操作同上<br>最后，栈中存储了堆中的字符串对象的引用地址<br>所以，</strong>常量池中不可能存在两个相同的字符串，这是字符串的不可变性的体现**</p>
+<h3 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h3><p>常量池分两种，静态常量池与运行时常量池<br>编译期-静态常量池-运行前已经放置好了-常量-如String a = “1”;String a1 = “1”+”2”;<br>运行时-运行时常量池-运行时才会生成-变量-如String b = new String(“1”);String b1 = “1”+b;<br>注意:<br>(1):JVM对String str=”abc”对象放在常量池中是在编译时做的，而String str3=str1+str2是在运行时刻才能知道的。new对象也是在运行时才做的。<br>(2):字面量”+”拼接是在编译期间进行的，拼接后的字符串存放在字符串池中；而字符串引用的”+”拼接运算实在运行时进行的，新创建的字符串存放在堆中。</p>
+<p>静态常量池，class文件中的，存储了字符串,类和方法的信息等，占class的大部分内存空间<br>运行时常量池，jvm完成类装载操作后会将class的常量池放到方法区中，一般说常量池就是指这个在方法区中的常量池</p>
+<h3 id="intern"><a href="#intern" class="headerlink" title="intern"></a>intern</h3><p>intern方法是一个native方法，intern方法会从字符串常量池中查询当前字符串是否存在，如果存在，就直接返回当前字符串；如果不存在就会将当前字符串放入常量池中，之后再返回。</p>
+<h3 id="与append"><a href="#与append" class="headerlink" title="+与append"></a>+与append</h3><p>String中的+在编译阶段被解释为，创建StringBuffer对象，调用append()方法，在调用toString()，最后销毁StringBuffer对象这一过程<br>如String A= “11”+”22”+Str1+”33”; 这一过程在编译时被解释为String A = new StringBuffer(“1122”).append(Str).append(“33”).toString();<br>所以当需要在循环中进行+操作时，实际上会消耗大量性能在StringBuffer的创建与销毁上，这里最好手动new一个StringBuffer来代替String</p>
+<h3 id="面试题1：String，StringBuffer，StringBuilder区别"><a href="#面试题1：String，StringBuffer，StringBuilder区别" class="headerlink" title="面试题1：String，StringBuffer，StringBuilder区别"></a>面试题1：String，StringBuffer，StringBuilder区别</h3><p>面试常问的问题之一<br>(1)可不可变，String用final修饰，静态不可变，其他两个长度可变，这也是为什么有时候用append而不用+，append是在原基础扩容，而+则是新建String<br>(2)是否线程安全，String不可变(可理解为常量)，不会出现多个线程同时改变一个资源引起冲突的情况，所以视为安全<br>   StringBuffer内部用synchronized加同步锁，线程安全，StringBuffer没有，所以非线程安全<br>(3)执行效率，相对来说，StringBuilder &gt; StringBuffer &gt; String，具体情况具体分析<br>(4)各自特点，少量数据String灵活多变，大量数据多线程StringBuffer线程安全，大量数据单线程StringBuilder速度更快</p>
+<h3 id="面试题2：String-a-new-String-“kexin”-生成了几个对象"><a href="#面试题2：String-a-new-String-“kexin”-生成了几个对象" class="headerlink" title="面试题2：String a = new String(“kexin”);生成了几个对象"></a>面试题2：String a = new String(“kexin”);生成了几个对象</h3><p>在类加载阶段，生成了一个对象”kexin”放在堆中<br>在执行阶段，生成了一个对象a<br>所以是两个</p>
+<p>以上掺杂部分个人理解，欢迎讨论并指正</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yulungggg/article/details/81039655">String源代码解析</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34490018/article/details/82110578">深入理解Java中的String（大坑）</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoxi/p/6036701.html">深入理解Java中的String</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%9F%BA%E7%A1%80%E6%A2%B3%E7%90%86/" rel="tag"># 基础梳理</a>
+          
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/JVM/" rel="tag"># JVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/undefined/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" rel="next" title="快速排序">
+                <i class="fa fa-chevron-left"></i> 快速排序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/undefined/%E7%AC%94%E8%AE%B0-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="prev" title="负载均衡">
+                负载均衡 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/panda.jpg"
+                alt="人和" />
+            
+              <p class="site-author-name" itemprop="name">人和</p>
+              <p class="site-description motion-element" itemprop="description">而吾与子之所共识</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+                <a href="/archives">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/renhe1997" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="1084028573@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/qq_36766417?spm=1010.2135.3001.5343" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81"><span class="nav-number">1.</span> <span class="nav-text">源码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%83%A8%E5%88%86"><span class="nav-number">1.1.</span> <span class="nav-text">初始化部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM"><span class="nav-number">2.</span> <span class="nav-text">JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA"><span class="nav-number">2.1.</span> <span class="nav-text">创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="nav-number">2.2.</span> <span class="nav-text">常量池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#intern"><span class="nav-number">2.3.</span> <span class="nav-text">intern</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8Eappend"><span class="nav-number">2.4.</span> <span class="nav-text">+与append</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%981%EF%BC%9AString%EF%BC%8CStringBuffer%EF%BC%8CStringBuilder%E5%8C%BA%E5%88%AB"><span class="nav-number">2.5.</span> <span class="nav-text">面试题1：String，StringBuffer，StringBuilder区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%982%EF%BC%9AString-a-new-String-%E2%80%9Ckexin%E2%80%9D-%E7%94%9F%E6%88%90%E4%BA%86%E5%87%A0%E4%B8%AA%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.6.</span> <span class="nav-text">面试题2：String a &#x3D; new String(“kexin”);生成了几个对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">人和</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

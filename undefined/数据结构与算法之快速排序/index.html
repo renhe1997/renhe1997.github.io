@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="基础梳理,数据结构,算法,排序," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="【前言】 快速排序原理简单，使用方法经典，速度快，本博客旨在总结理论，梳理思路，记录实现过程 【正文】 理论 快速排序，分治法，分治递归时它的核心思想，将一组数通过规则分成几部分，每一部分再按照相同规则进行处理，大事化小，小事化了。时间复杂度平均为O（nlogn）,最坏为O（n*n）。 两头往中间赶，哨兵思想 实现思路 简单来说，取一数字，比他小的放左边，大的放右边，而后子递归 1.随机取一个基准">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速排序">
+<meta property="og:url" content="http://example.com/undefined/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/index.html">
+<meta property="og:site_name" content="巴卡玛卡">
+<meta property="og:description" content="【前言】 快速排序原理简单，使用方法经典，速度快，本博客旨在总结理论，梳理思路，记录实现过程 【正文】 理论 快速排序，分治法，分治递归时它的核心思想，将一组数通过规则分成几部分，每一部分再按照相同规则进行处理，大事化小，小事化了。时间复杂度平均为O（nlogn）,最坏为O（n*n）。 两头往中间赶，哨兵思想 实现思路 简单来说，取一数字，比他小的放左边，大的放右边，而后子递归 1.随机取一个基准">
+<meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200702164140937.gif#pic_center">
+<meta property="article:published_time" content="2020-12-24T06:20:45.498Z">
+<meta property="article:modified_time" content="2020-12-24T06:17:50.857Z">
+<meta property="article:author" content="人和">
+<meta property="article:tag" content="基础梳理">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="排序">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200702164140937.gif#pic_center">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/undefined/数据结构与算法之快速排序/"/>
+
+
+
+
+
+  <title>快速排序 | 巴卡玛卡</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">巴卡玛卡</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">subTitle</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+<a target="_blank" rel="noopener" href="https://your-url" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/undefined/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="人和">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/panda.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="巴卡玛卡">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">快速排序</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-24T14:20:45+08:00">
+                2020-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>【前言】</p>
+<p>快速排序原理简单，使用方法经典，速度快，本博客旨在总结理论，梳理思路，记录实现过程</p>
+<p>【正文】</p>
+<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p> 快速排序，分治法，分治递归时它的核心思想，将一组数通过规则分成几部分，每一部分再按照相同规则进行处理，大事化小，小事化了。时间复杂度平均为O（nlogn）,最坏为O（n*n）。<br> 两头往中间赶，哨兵思想</p>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p> 简单来说，取一数字，比他小的放左边，大的放右边，而后子递归<br> 1.随机取一个基准点，基准点取得越靠近中间值，算法时间效率越高，这里不对如何取值做深入讨论，再设置最左点最右点，左点游移直至大于基准点停止，右点游移直至小于基准点停止<br> 2.左点右点交换，继续游移<br> 3.左右停止且处于同一位置时，将基准点置于中间，一次排序结束<br> 4.将左右值作为参数，递归调用函数本身</p>
+<h2 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h2><p><img src="https://img-blog.csdnimg.cn/20200702164140937.gif#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="主函数代码实现"><a href="#主函数代码实现" class="headerlink" title="主函数代码实现"></a>主函数代码实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public void Q_Sort(List&lt;Integer&gt; list, int start, int end) &#123;</span><br><span class="line">        &#x2F;&#x2F;如果左点大于右点，关闭递归，左点右点相遇，此次排序完成</span><br><span class="line">        &#x2F;&#x2F;这步判断要放在开头位置，未应用时return</span><br><span class="line">        &#x2F;&#x2F; 在排序进行到最后时，left点为最后一位+1，如果不提前判断会出现溢出</span><br><span class="line">        if (start &gt; end) &#123;</span><br><span class="line">            System.out.println(&quot;关闭递归&quot;);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;左点</span><br><span class="line">        int left &#x3D; start;</span><br><span class="line">        &#x2F;&#x2F;右点</span><br><span class="line">        int right &#x3D; end;</span><br><span class="line">        &#x2F;&#x2F;基准点</span><br><span class="line">        int p &#x3D; start;</span><br><span class="line">        &#x2F;&#x2F;基准值</span><br><span class="line">        int point &#x3D; list.get(p);</span><br><span class="line">        &#x2F;&#x2F;如果左点小于右点，此次排序還未完成，继续对比</span><br><span class="line">        while (left &lt; right) &#123;</span><br><span class="line">            &#x2F;&#x2F;因为对left和right进行了加减，后期会出现left&#x3D;right的情况，此时不能再对两数进行加减，</span><br><span class="line">            &#x2F;&#x2F;维持现状走完此次循环即可，left&#x3D;right的情况下，进行交换操作也不会影响结果</span><br><span class="line">            &#x2F;&#x2F;先右后左，非常重要，这个问题卡住好久才发现！！！</span><br><span class="line">            while ((left &lt; right) &amp;&amp; list.get(right) &gt;&#x3D; point) &#123;</span><br><span class="line">                right--;</span><br><span class="line">            &#125;</span><br><span class="line">            while ((left &lt; right) &amp;&amp; list.get(left) &lt;&#x3D; point) &#123;</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F;交换</span><br><span class="line">            swap(list, left, right);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;这里因为基准值取的是操作数列的第一个值，所以应该把它与操作数列的中间数进行交换，</span><br><span class="line">        &#x2F;&#x2F; 如果基准值取得是操作数列的中间值，则不用再进行交换</span><br><span class="line">        swap(list, p, left);</span><br><span class="line">        &#x2F;&#x2F;参数分别是，list，左点，右点，这里的右点是left-1，避开上一次循环时减缓完成的基点，</span><br><span class="line">        &#x2F;&#x2F; 如果不避开的话，left与right两点会缩成(0,0)，进入死循环，疯狂填栈，最后栈内存溢出，</span><br><span class="line">        &#x2F;&#x2F; 报java.lang.StackOverflowError（这是递归中常遇到的问题，涉及jvm的知识，后续再补）</span><br><span class="line">        &#x2F;&#x2F;程序利用left-1，使左点参数(end)变为-1，即(0,-1)，触发left&gt;end,return关闭左子递归</span><br><span class="line">        Q_Sort(list, p, left-1);</span><br><span class="line">        Q_Sort(list, left + 1, end);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>1.判断start&gt;end后return操作优先进行，防止-1或10这样的数据导致内存溢出</p>
+<p>2.while(left&lt;right)时进行对比排序操作</p>
+<p>3.从右到左，先右面right比较再左边比较，–完后再++，顺序很重要，颠倒顺序回导致left提前变动</p>
+<p>4.左右点移动时，while里的判断条件加上=<br>5.递归穿参时注意left-1与left+1操作，这样才能触发子递归的机制，也能防止出现(0,0)这样的死循环，导致栈内存溢出</p>
+<h3 id="随机数生成"><a href="#随机数生成" class="headerlink" title="随机数生成"></a>随机数生成</h3><p>public class DateOfList {<br>    public ArrayList<Integer> constructor(int max,int size) {<br>        ArrayList<Integer> list = new ArrayList<Integer>();<br>        Random random = new Random();<br>        for (int i = 0; i &lt; size; i++) {<br>            list.add(random.nextInt(max));<br>        }<br>        return list;<br>    }<br>}</p>
+<h3 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        ArrayList list &#x3D; new DateOfList().constructor(100,10);</span><br><span class="line">        System.out.println(&quot;前：&quot; + list);</span><br><span class="line">        new QuickSort().Q_Sort(list, 0, list.size() - 1);</span><br><span class="line">        System.out.println(&quot;后&quot; + list);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="log"><a href="#log" class="headerlink" title="log"></a>log</h3><p>以100内随机数，10数字长度排序为例，log记录如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br></pre></td><td class="code"><pre><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[84, 92, 94, 93, 36, 61, 10, 37, 66, 83]</span><br><span class="line">left点为0</span><br><span class="line">right点为9</span><br><span class="line">基准点为84</span><br><span class="line">----------------</span><br><span class="line">left点为1</span><br><span class="line">right点为9</span><br><span class="line">交换92与83</span><br><span class="line">交换前list为：</span><br><span class="line">[84, 92, 94, 93, 36, 61, 10, 37, 66, 83]</span><br><span class="line">交换后list为：</span><br><span class="line">[84, 83, 94, 93, 36, 61, 10, 37, 66, 92]</span><br><span class="line">----------------</span><br><span class="line">----------------</span><br><span class="line">left点为2</span><br><span class="line">right点为8</span><br><span class="line">交换94与66</span><br><span class="line">交换前list为：</span><br><span class="line">[84, 83, 94, 93, 36, 61, 10, 37, 66, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[84, 83, 66, 93, 36, 61, 10, 37, 94, 92]</span><br><span class="line">----------------</span><br><span class="line">----------------</span><br><span class="line">left点为3</span><br><span class="line">right点为7</span><br><span class="line">交换93与37</span><br><span class="line">交换前list为：</span><br><span class="line">[84, 83, 66, 93, 36, 61, 10, 37, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[84, 83, 66, 37, 36, 61, 10, 93, 94, 92]</span><br><span class="line">----------------</span><br><span class="line">----------------</span><br><span class="line">left点为6</span><br><span class="line">right点为6</span><br><span class="line">交换10与10</span><br><span class="line">交换前list为：</span><br><span class="line">[84, 83, 66, 37, 36, 61, 10, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[84, 83, 66, 37, 36, 61, 10, 93, 94, 92]</span><br><span class="line">----------------</span><br><span class="line">--------基准点交换--------</span><br><span class="line">交换10与84</span><br><span class="line">交换前list为：</span><br><span class="line">[84, 83, 66, 37, 36, 61, 10, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 83, 66, 37, 36, 61, 84, 93, 94, 92]</span><br><span class="line">----------------end------------------</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 83, 66, 37, 36, 61, 84, 93, 94, 92]</span><br><span class="line">left点为0</span><br><span class="line">right点为5</span><br><span class="line">基准点为10</span><br><span class="line">----------------</span><br><span class="line">left点为0</span><br><span class="line">right点为0</span><br><span class="line">交换10与10</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 83, 66, 37, 36, 61, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 83, 66, 37, 36, 61, 84, 93, 94, 92]</span><br><span class="line">----------------</span><br><span class="line">--------基准点交换--------</span><br><span class="line">交换10与10</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 83, 66, 37, 36, 61, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 83, 66, 37, 36, 61, 84, 93, 94, 92]</span><br><span class="line">----------------end------------------</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 83, 66, 37, 36, 61, 84, 93, 94, 92]</span><br><span class="line">left点为0</span><br><span class="line">right点为-1</span><br><span class="line">关闭递归</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 83, 66, 37, 36, 61, 84, 93, 94, 92]</span><br><span class="line">left点为1</span><br><span class="line">right点为5</span><br><span class="line">基准点为83</span><br><span class="line">----------------</span><br><span class="line">left点为5</span><br><span class="line">right点为5</span><br><span class="line">交换61与61</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 83, 66, 37, 36, 61, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 83, 66, 37, 36, 61, 84, 93, 94, 92]</span><br><span class="line">----------------</span><br><span class="line">--------基准点交换--------</span><br><span class="line">交换61与83</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 83, 66, 37, 36, 61, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 61, 66, 37, 36, 83, 84, 93, 94, 92]</span><br><span class="line">----------------end------------------</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 61, 66, 37, 36, 83, 84, 93, 94, 92]</span><br><span class="line">left点为1</span><br><span class="line">right点为4</span><br><span class="line">基准点为61</span><br><span class="line">----------------</span><br><span class="line">left点为2</span><br><span class="line">right点为4</span><br><span class="line">交换66与36</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 61, 66, 37, 36, 83, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 61, 36, 37, 66, 83, 84, 93, 94, 92]</span><br><span class="line">----------------</span><br><span class="line">----------------</span><br><span class="line">left点为3</span><br><span class="line">right点为3</span><br><span class="line">交换37与37</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 61, 36, 37, 66, 83, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 61, 36, 37, 66, 83, 84, 93, 94, 92]</span><br><span class="line">----------------</span><br><span class="line">--------基准点交换--------</span><br><span class="line">交换37与61</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 61, 36, 37, 66, 83, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 37, 36, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">----------------end------------------</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 37, 36, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">left点为1</span><br><span class="line">right点为2</span><br><span class="line">基准点为37</span><br><span class="line">----------------</span><br><span class="line">left点为2</span><br><span class="line">right点为2</span><br><span class="line">交换36与36</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 37, 36, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 37, 36, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">----------------</span><br><span class="line">--------基准点交换--------</span><br><span class="line">交换36与37</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 37, 36, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">----------------end------------------</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">left点为1</span><br><span class="line">right点为1</span><br><span class="line">基准点为36</span><br><span class="line">--------基准点交换--------</span><br><span class="line">交换36与36</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">----------------end------------------</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">left点为1</span><br><span class="line">right点为0</span><br><span class="line">关闭递归</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">left点为2</span><br><span class="line">right点为1</span><br><span class="line">关闭递归</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">left点为3</span><br><span class="line">right点为2</span><br><span class="line">关闭递归</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">left点为4</span><br><span class="line">right点为4</span><br><span class="line">基准点为66</span><br><span class="line">--------基准点交换--------</span><br><span class="line">交换66与66</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">----------------end------------------</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">left点为4</span><br><span class="line">right点为3</span><br><span class="line">关闭递归</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">left点为5</span><br><span class="line">right点为4</span><br><span class="line">关闭递归</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">left点为6</span><br><span class="line">right点为5</span><br><span class="line">关闭递归</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">left点为7</span><br><span class="line">right点为9</span><br><span class="line">基准点为93</span><br><span class="line">----------------</span><br><span class="line">left点为8</span><br><span class="line">right点为9</span><br><span class="line">交换94与92</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 94, 92]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 92, 94]</span><br><span class="line">----------------</span><br><span class="line">----------------</span><br><span class="line">left点为8</span><br><span class="line">right点为8</span><br><span class="line">交换92与92</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 92, 94]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 92, 94]</span><br><span class="line">----------------</span><br><span class="line">--------基准点交换--------</span><br><span class="line">交换92与93</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 93, 92, 94]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 92, 93, 94]</span><br><span class="line">----------------end------------------</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 92, 93, 94]</span><br><span class="line">left点为7</span><br><span class="line">right点为7</span><br><span class="line">基准点为92</span><br><span class="line">--------基准点交换--------</span><br><span class="line">交换92与92</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 92, 93, 94]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 92, 93, 94]</span><br><span class="line">----------------end------------------</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 92, 93, 94]</span><br><span class="line">left点为7</span><br><span class="line">right点为6</span><br><span class="line">关闭递归</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 92, 93, 94]</span><br><span class="line">left点为8</span><br><span class="line">right点为7</span><br><span class="line">关闭递归</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 92, 93, 94]</span><br><span class="line">left点为9</span><br><span class="line">right点为9</span><br><span class="line">基准点为94</span><br><span class="line">--------基准点交换--------</span><br><span class="line">交换94与94</span><br><span class="line">交换前list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 92, 93, 94]</span><br><span class="line">交换后list为：</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 92, 93, 94]</span><br><span class="line">----------------end------------------</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 92, 93, 94]</span><br><span class="line">left点为9</span><br><span class="line">right点为8</span><br><span class="line">关闭递归</span><br><span class="line">--------------begin-----------------</span><br><span class="line">初始list</span><br><span class="line">[10, 36, 37, 61, 66, 83, 84, 92, 93, 94]</span><br><span class="line">left点为10</span><br><span class="line">right点为9</span><br><span class="line">关闭递归</span><br><span class="line">共循环：11次</span><br></pre></td></tr></table></figure>
+<p>总结<br>快速排序的程序断断续续改了好久，终于初步完成了，之后再视情况学习记录其他快速排序的实现方法，与上述方法不同之处在于，上述方法将基点定位在第一个，双向对比后排序，区别在于选基准点方式不同(一定情况下取中间值可提升效率)等，留待后续。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%9F%BA%E7%A1%80%E6%A2%B3%E7%90%86/" rel="tag"># 基础梳理</a>
+          
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          
+            <a href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag"># 排序</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/undefined/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E4%B9%8B%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/" rel="next" title="冒泡排序">
+                <i class="fa fa-chevron-left"></i> 冒泡排序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/undefined/String%E4%B8%8EJVM%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="String与JVM">
+                String与JVM <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/panda.jpg"
+                alt="人和" />
+            
+              <p class="site-author-name" itemprop="name">人和</p>
+              <p class="site-description motion-element" itemprop="description">而吾与子之所共识</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+                <a href="/archives">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/renhe1997" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="1084028573@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/qq_36766417?spm=1010.2135.3001.5343" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">理论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">实现思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E8%A7%A3"><span class="nav-number">3.</span> <span class="nav-text">图解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E5%87%BD%E6%95%B0%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.1.</span> <span class="nav-text">主函数代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%94%9F%E6%88%90"><span class="nav-number">3.2.</span> <span class="nav-text">随机数生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%B1%BB"><span class="nav-number">3.3.</span> <span class="nav-text">测试类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#log"><span class="nav-number">3.4.</span> <span class="nav-text">log</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">人和</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
