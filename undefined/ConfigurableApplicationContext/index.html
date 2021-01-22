@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="SpringBoot,框架,源码,笔记摘抄," />
 
 
 
@@ -79,16 +79,20 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="description" content="public interface ConfigurableApplicationContext extends ApplicationContext, Lifecycle, Closeable &amp;#123;      &#x2F;**      * 应用上下文配置时，这些符号用于分割多个配置路径      *&#x2F;     String CONFIG_LOCATION_DELIMITERS &#x3D; &quot;,;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://example.com/undefined/hello-world/index.html">
+<meta property="og:title" content="ConfigurableApplicationContext启动类分析">
+<meta property="og:url" content="http://example.com/undefined/ConfigurableApplicationContext/index.html">
 <meta property="og:site_name" content="巴卡玛卡">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="public interface ConfigurableApplicationContext extends ApplicationContext, Lifecycle, Closeable &amp;#123;      &#x2F;**      * 应用上下文配置时，这些符号用于分割多个配置路径      *&#x2F;     String CONFIG_LOCATION_DELIMITERS &#x3D; &quot;,;">
 <meta property="og:locale">
-<meta property="article:published_time" content="2020-12-22T09:36:25.990Z">
-<meta property="article:modified_time" content="2020-12-22T09:36:25.991Z">
+<meta property="article:published_time" content="2021-01-22T09:27:57.839Z">
+<meta property="article:modified_time" content="2021-01-22T09:29:55.279Z">
 <meta property="article:author" content="人和">
+<meta property="article:tag" content="SpringBoot">
+<meta property="article:tag" content="框架">
+<meta property="article:tag" content="源码">
+<meta property="article:tag" content="笔记摘抄">
 <meta name="twitter:card" content="summary">
 
 
@@ -119,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/undefined/hello-world/"/>
+  <link rel="canonical" href="http://example.com/undefined/ConfigurableApplicationContext/"/>
 
 
 
 
 
-  <title>Hello World | 巴卡玛卡</title>
+  <title>ConfigurableApplicationContext启动类分析 | 巴卡玛卡</title>
   
 
 
@@ -262,7 +266,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/undefined/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/undefined/ConfigurableApplicationContext/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="人和">
@@ -279,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline">ConfigurableApplicationContext启动类分析</h1>
         
 
         <div class="post-meta">
@@ -291,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-22T17:36:25+08:00">
-                2020-12-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-22T17:27:57+08:00">
+                2021-01-22
               </time>
             
 
@@ -301,6 +305,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -328,7 +354,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  75
+                  856
                 </span>
               
 
@@ -344,7 +370,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  3
                 </span>
               
             </div>
@@ -365,15 +391,120 @@
       
 
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <pre><code class="java">public interface ConfigurableApplicationContext extends ApplicationContext, Lifecycle, Closeable &#123;
+
+    /**
+     * 应用上下文配置时，这些符号用于分割多个配置路径
+     */
+    String CONFIG_LOCATION_DELIMITERS = &quot;,; \t\n&quot;;
+
+    /**
+     * BeanFactory中，ConversionService类所对应的bean的名字。如果没有此类的实例的话
+     * 则使用默认的转换规则
+     */
+    String CONVERSION_SERVICE_BEAN_NAME = &quot;conversionService&quot;;
+
+    /**
+     * LoadTimeWaver类所对应的Bean在容器中的名字。如果提供了该实例，上下文会使用临时的ClassLoader
+     * 这样，LoadTimeWaver就可以使用bean确切的类型了
+     */
+    String LOAD_TIME_WEAVER_BEAN_NAME = &quot;loadTimeWeaver&quot;;
+
+    /**
+     * Environment类在容器中实例的名字
+     */
+    String ENVIRONMENT_BEAN_NAME = &quot;environment&quot;;
+
+    /**
+     * System系统变量在容器中对应的Bean的名字
+     */
+    String SYSTEM_PROPERTIES_BEAN_NAME = &quot;systemProperties&quot;;
+
+    /**
+     * System 环境变量在容器中对应的Bean的名字
+     */
+    String SYSTEM_ENVIRONMENT_BEAN_NAME = &quot;systemEnvironment&quot;;
+
+
+    /**
+     * 设置容器的唯一ID
+     */
+    void setId(String id);
+
+    /**
+     * 设置此容器的父容器
+     * 需要注意的是，父容器一经设定就不应该修改。并且一般不会在构造方法中对其进行配置，因为很多时候。
+     * 其父容器还不可用。比如WebApplicationContext。
+     */
+    void setParent(ApplicationContext parent);
+
+    /**
+     * 设置容器的Environment变量
+     */
+    void setEnvironment(ConfigurableEnvironment environment);
+
+    /**
+     * 以COnfigurableEnvironment的形式返回此容器的环境变量。以使用户更好的进行配置
+     */
+    @Override
+    ConfigurableEnvironment getEnvironment();
+
+    /**
+     * 此方法一般在读取应用上下文配置的时候调用，用以向此容器中增加BeanFactoryPostProcessor。
+     * 增加的Processor会在容器refresh的时候使用。
+     */
+    void addBeanFactoryPostProcessor(BeanFactoryPostProcessor postProcessor);
+
+    /**
+     * 向容器增加一个ApplicationListener，增加的Listener用于发布上下文事件如refresh和shutdown等
+     * 需要注意的是，如果此上下文还没有启动，那么在此注册的Listener将会在上下文refresh的时候，全部被调用
+     * 如果上下文已经是active状态的了，就会在multicaster中使用
+     */
+    void addApplicationListener(ApplicationListener&lt;?&gt; listener);
+
+    /**
+     * 向容器中注入给定的Protocol resolver，允许多个实例同时存在。
+     * 在此注册的每一个resolver都将会在上下的标准解析规则之前使用。因此，某种程度上来说
+     * 这里注册的resolver可以覆盖上下文的resolver
+     */
+    void addProtocolResolver(ProtocolResolver resolver);
+
+    /**
+     * 加载资源配置文件（XML、properties,Whatever）。
+     * 由于此方法是一个初始化方法，因此如果调用此方法失败的情况下，要将其已经创建的Bean销毁。
+     * 换句话说，调用此方法以后，要么所有的Bean都实例化好了，要么就一个都没有实例化
+     */
+    void refresh() throws BeansException, IllegalStateException;
+
+    /**
+     * 向JVM注册一个回调函数，用以在JVM关闭时，销毁此应用上下文。
+     */
+    void registerShutdownHook();
+
+    /**
+     * 关闭此应用上下文，释放其所占有的所有资源和锁。并销毁其所有创建好的singleton Beans
+     * 实现的时候，此方法不应该调用其父上下文的close方法，因为其父上下文具有自己独立的生命周期
+     * 多次调用此方法，除了第一次，后面的调用应该被忽略。
+     */
+    @Override
+    void close();
+
+    /**
+     * 检测此FactoryBean是否被启动过。
+     */
+    boolean isActive();
+
+    /**
+     * 返回此应用上下文的容器。
+     * 千万不要使用此方法来对BeanFactory生成的Bean做后置处理，因为单例Bean在此之前已经生成。
+     * 这种情况下应该使用BeanFactoryPostProcessor来在Bean生成之前对其进行处理。
+     * 通常情况下，内容容器只有在上下文是激活的情况下才能使用。因此，在使用此方法前，可以调用
+     * isActive来判断容器是如可用
+     */
+    ConfigurableListableBeanFactory getBeanFactory() throws IllegalStateException;
+
+&#125;
+</code></pre>
 
       
     </div>
@@ -389,6 +520,18 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          
+            <a href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag"># 框架</a>
+          
+            <a href="/tags/%E6%BA%90%E7%A0%81/" rel="tag"># 源码</a>
+          
+            <a href="/tags/%E7%AC%94%E8%AE%B0%E6%91%98%E6%8A%84/" rel="tag"># 笔记摘抄</a>
+          
+        </div>
+      
 
       
       
@@ -398,15 +541,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/undefined/%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E6%95%B4%E7%90%86%EF%BC%88%E5%88%9D%E7%89%88%EF%BC%89/" rel="next" title="知识体系总结（初版）">
+                <i class="fa fa-chevron-left"></i> 知识体系总结（初版）
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/undefined/Spring%20AOP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" rel="prev" title="AOP知识梳理">
-                AOP知识梳理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -458,17 +601,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -552,22 +686,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
