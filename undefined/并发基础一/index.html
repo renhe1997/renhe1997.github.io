@@ -81,18 +81,24 @@
 
 <meta name="description" content="写在前面：多线程并发等知识点涉及面广，延伸度大，理论加源码的方式整理关于线程的部分基础知识，其他更多的更深的知识会在后面一一学习和整理，先学习基础，再延伸。 一、线程与进程进程是指一个内存中运行的应用程序，每个进程都有自己独立的一块内存空间，是系统进行资源分配和调度的一个独立单位，是程序运行的最小单元。 线程是指进程中的一个执行流程，没有自己的内存空间，是cpu运行和分派的最小单元。 在Java中">
 <meta property="og:type" content="article">
-<meta property="og:title" content="并发一">
-<meta property="og:url" content="http://example.com/undefined/%E5%B9%B6%E5%8F%91%E4%B8%80%EF%BC%88%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%90%86%E8%AE%BA%E5%87%86%E5%A4%87%EF%BC%89/index.html">
+<meta property="og:title" content="并发基础一">
+<meta property="og:url" content="http://example.com/undefined/%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E4%B8%80/index.html">
 <meta property="og:site_name" content="巴卡玛卡">
 <meta property="og:description" content="写在前面：多线程并发等知识点涉及面广，延伸度大，理论加源码的方式整理关于线程的部分基础知识，其他更多的更深的知识会在后面一一学习和整理，先学习基础，再延伸。 一、线程与进程进程是指一个内存中运行的应用程序，每个进程都有自己独立的一块内存空间，是系统进行资源分配和调度的一个独立单位，是程序运行的最小单元。 线程是指进程中的一个执行流程，没有自己的内存空间，是cpu运行和分派的最小单元。 在Java中">
 <meta property="og:locale">
-<meta property="article:published_time" content="2020-12-24T00:36:47.584Z">
-<meta property="article:modified_time" content="2020-12-24T00:39:50.118Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c56c96bfff1642ab9eb780b17b698e6e.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0954960898044910a71669a624399836.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c73be0e97b5343dba31c60116924fa07.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20bca00d76ea4c0aaa32e5d8e2a3934d.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/cd78f00d6bf443548af8c757a18aab54.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="article:published_time" content="2021-07-23T02:01:10.514Z">
+<meta property="article:modified_time" content="2021-07-23T02:01:17.956Z">
 <meta property="article:author" content="人和">
 <meta property="article:tag" content="基础梳理">
 <meta property="article:tag" content="并发">
 <meta property="article:tag" content="多线程">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/c56c96bfff1642ab9eb780b17b698e6e.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
 
 
 
@@ -122,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/undefined/并发一（基本概念及理论准备）/"/>
+  <link rel="canonical" href="http://example.com/undefined/并发基础一/"/>
 
 
 
 
 
-  <title>并发一 | 巴卡玛卡</title>
+  <title>并发基础一 | 巴卡玛卡</title>
   
 
 
@@ -265,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/undefined/%E5%B9%B6%E5%8F%91%E4%B8%80%EF%BC%88%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%90%86%E8%AE%BA%E5%87%86%E5%A4%87%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/undefined/%E5%B9%B6%E5%8F%91%E5%9F%BA%E7%A1%80%E4%B8%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="人和">
@@ -282,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">并发一</h1>
+          <h1 class="post-title" itemprop="name headline">并发基础一</h1>
         
 
         <div class="post-meta">
@@ -294,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-24T08:36:47+08:00">
-                2020-12-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-23T10:01:10+08:00">
+                2021-07-23
               </time>
             
 
@@ -353,7 +359,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.5k
+                  2.4k
                 </span>
               
 
@@ -369,7 +375,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  5
+                  8
                 </span>
               
             </div>
@@ -396,39 +402,115 @@
 <p>在Java中，每次程序运行至少启动2个线程：一个是main线程，一个是垃圾收集线程。因为每当使用java命令执行一个类的时候，实际上都会启动一个JVM，每一个JVM实际上就是在操作系统中启动了一个进程。</p>
 <h2 id="二、线程实现"><a href="#二、线程实现" class="headerlink" title="二、线程实现"></a>二、线程实现</h2><p>继承 Thread<br>由于java是单继承，所以基本不用这种实现方式</p>
 <p>实现Runnable<br>接口，重写run()</p>
-<p>实现Callable&amp;Future<br>待续</p>
-<h2 id="三、线程生命周期及状态转换"><a href="#三、线程生命周期及状态转换" class="headerlink" title="三、线程生命周期及状态转换"></a>三、线程生命周期及状态转换</h2><p>新建<br>new                【来到体育场 】</p>
-<p>可运行<br>runnable         【进入备跑区】</p>
+<p>实现Callable&amp;Future</p>
+<h2 id="三、线程生命周期及状态转换"><a href="#三、线程生命周期及状态转换" class="headerlink" title="三、线程生命周期及状态转换"></a>三、线程生命周期及状态转换</h2><p><strong>新建</strong><br>new                【来到体育场 】</p>
+<p><strong>可运行</strong><br>runnable         【进入备跑区】</p>
 <p>线程对象创建后，其他线程调用了该线程的start方法，进入线程池等待被调度选中，获取cpu使用权。当前线程sleep()方法结束，其他线程join()结束，等待用户输入完毕，某个线程拿到对象锁，这些线程也将进入可运行状态。当前线程时间片用完了，调用当前线程的yield()方法，当前线程进入可运行状态。锁池里的线程拿到对象锁后，进入可运行状态。</p>
-<p>运行<br>running           【起跑】 </p>
+<p><strong>运行</strong><br>running           【起跑】 </p>
 <p>runnable状态下获得了cpu时间片（timeslice），执行程序。</p>
-<p>阻塞<br>blocked           【停下去做点啥】     </p>
+<p><strong>阻塞</strong><br>blocked           【停下去做点啥】     </p>
 <p>线程因为某些原因放弃了cpu使用权，让出了cpu timeslice，暂停运行。直到线程重新进入runnable。</p>
 <p>所谓阻塞状态是正在运行的线程没有运行结束，暂时让出CPU，这时其他处于就绪状态的线程就可以获得CPU时间，进入运行状态。</p>
-<p>blocked分三种：<br>等待阻塞 wait()方法执行，进入等待队列(waitting queue)<br>同步阻塞 running的线程在获取对象的同步锁时，若该同步锁被别的线程占用，JVM会把它放到锁池(lock pool)中，等拿到锁之后才会进入可运行<br>其他阻塞 Thread.sleep(long ms)                                               睡上五分钟，醒来再进线程池<br>                t.join()                                                                        跑着跑着突然被插队，你不得不停下<br>               发出IO请求时，jvm会把该线程置为阻塞状态。         跑着跑着，你去看了看文件，所以得停下<br>当           sleep()状态超时                                                          睡醒了<br>               join()等待线程终止或者超时                                       插队的人走了或挂了<br>               或者I/O处理完毕时                                                     文件看完了</p>
+<p>blocked分三种：<br><strong>等待阻塞</strong> wait()方法执行，进入等待队列(waitting queue)<br><strong>同步阻塞</strong> running的线程在获取对象的同步锁时，若该同步锁被别的线程占用，JVM会把它放到锁池(lock pool)中，等拿到锁之后才会进入可运行<br><strong>其他阻塞</strong> Thread.sleep(long ms)                                               睡上五分钟，醒来再进线程池<br>                t.join()                                                                        跑着跑着突然被插队，你不得不停下<br>               发出IO请求时，jvm会把该线程置为阻塞状态。         跑着跑着，你去看了看文件，所以得停下<br>当           sleep()状态超时                                                          睡醒了<br>               join()等待线程终止或者超时                                       插队的人走了或挂了<br>               或者I/O处理完毕时                                                     文件看完了</p>
 <p>线程重新转入可运行(runnable)状态。</p>
-<p>等待<br>waiting             【等着，别人叫再跑】</p>
+<p><strong>等待</strong><br>waiting             【等着，别人叫再跑】</p>
 <p>处于这种状态的线程不会被分配CPU执行时间，它们要等待被显式地唤醒，否则会处于无限期等待的状态。</p>
-<p>超时等待<br>time waiting     【等着，过了等待时间就不等了】</p>
+<p><strong>超时等待</strong><br>time waiting     【等着，过了等待时间就不等了】</p>
 <p>处于这种状态的线程不会被分配CPU执行时间，不过无须无限期等待被其他线程显示地唤醒，在达到一定时间后它们会自动唤醒。</p>
-<p>终止<br>terminated       【跑完或者意外退场】</p>
-<p>run()、main()执行结束，或因异常退出run()方法，结束该线程生命周期，死亡的不可复生。</p>
-<h2 id="四、常见操作方法分析"><a href="#四、常见操作方法分析" class="headerlink" title="四、常见操作方法分析"></a>四、常见操作方法分析</h2><p>Thread.sleep(long millis)<br>一定是当前线程调用此方法，当前线程进入阻塞，但不释放对象锁，millis后线程自动苏醒进入可运行状态。作用：给其它线程执行机会的最佳方式。</p>
+<p><strong>终止</strong><br>terminated       【跑完或者意外退场】</p>
+<p>run()、main()执行结束，或因异常退出run()方法，结束该线程生命周期，<strong>死亡的不可复生</strong>。<br><img src="https://img-blog.csdnimg.cn/c56c96bfff1642ab9eb780b17b698e6e.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="四、常见操作方法分析"><a href="#四、常见操作方法分析" class="headerlink" title="四、常见操作方法分析"></a>四、常见操作方法分析</h2><p><strong>Thread.sleep(long millis)</strong><br>一定是当前线程调用此方法，当前线程<strong>进入阻塞，但不释放对象锁</strong>，millis后线程自动苏醒进入可运行状态。作用：给其它线程执行机会的最佳方式。</p>
 <p>Thread.yield()<br>一定是当前线程调用此方法，当前线程放弃获取的cpu时间片，由运行状态变会可运行状态，让OS再次选择线程。作用：让相同优先级的线程轮流执行，但并不保证一定会轮流执行。实际中无法保证yield()达到让步目的，因为让步的线程还有可能被线程调度程序再次选中。Thread.yield()不会导致阻塞。</p>
 <p>t.join()/t.join(long millis)<br>当前线程里调用其它线程1的join方法，当前线程阻塞，但不释放对象锁，直到线程1执行完毕或者millis时间到，当前线程进入可运行状态。</p>
-<p>obj.wait()<br>当前线程调用对象的wait()方法，当前线程释放对象锁，进入等待队列。依靠notify()/notifyAll()唤醒或者wait(long timeout)timeout时间到自动唤醒。</p>
+<p><strong>obj.wait()</strong><br>当前线程调用对象的wait()方法，当前线程<strong>释放对象锁，进入等待队列</strong>。依靠notify()/notifyAll()唤醒或者wait(long timeout)timeout时间到自动唤醒。</p>
 <p>obj.notify()<br>唤醒在此对象监视器上等待的单个线程，选择是任意性的。notifyAll()唤醒在此对象监视器上等待的所有线程。</p>
-<h2 id="五、线程池"><a href="#五、线程池" class="headerlink" title="五、线程池"></a>五、线程池</h2><p>ThreadPoolExecutor extends Executor</p>
-<h2 id="六、常见并发容器"><a href="#六、常见并发容器" class="headerlink" title="六、常见并发容器"></a>六、常见并发容器</h2><p>ConcurrentHashMap<br>待续</p>
-<p>其他并发容器<br>待续</p>
-<p>队列<br>同步队列</p>
-<p>当前线程想调用对象A的同步方法时，发现对象A的锁被别的线程占有，此时当前线程进入同步队列。简言之，同步队列里面放的都是想争夺对象锁的线程。同步队列是在同步的环境下才有的概念，一个对象对应一个同步队列。</p>
-<p>锁池队列</p>
-<p>锁池里面放的都是想争夺对象锁的线程。当一个线程1被另外一个线程2唤醒时，1线程进入锁池状态，去争夺对象锁。</p>
-<p>锁池是在同步的环境下才有的概念，一个对象对应一个锁池。</p>
-<p>等待队列</p>
-<p>待续</p>
-<h2 id="七、线程安全"><a href="#七、线程安全" class="headerlink" title="七、线程安全"></a>七、线程安全</h2><p>定义：CPU的使用权抢占和资源的共享发生了冲突</p>
+<h2 id="五、线程池"><a href="#五、线程池" class="headerlink" title="五、线程池"></a>五、线程池</h2><p>定义：<br>基于池化思想管理线程的工具，解决的核心问题就是资源管理问题</p>
+<h3 id="池化思想："><a href="#池化思想：" class="headerlink" title="池化思想："></a>池化思想：</h3><p>为了最大化收益并最小化风险，而将资源统一在一起管理的一种思想。<br>“池化”思想不仅仅能应用在计算机领域，在金融、设备、人员管理、工作管理等领域也有相关的应用。</p>
+<p>在计算机领域中的表现为：统一管理IT资源，包括服务器、存储、和网络资源等等。通过共享资源，使用户在低投入中获益。除去线程池，还有其他比较典型的几种使用策略包括：</p>
+<p>内存池(Memory Pooling)：预先申请内存，提升申请内存速度，减少内存碎片。<br>连接池(Connection Pooling)：预先申请数据库连接，提升申请连接的速度，降低系统的开销。<br>实例池(Object Pooling)：循环使用对象，减少资源在初始化和释放时的昂贵损耗。</p>
+<h3 id="线程池创建"><a href="#线程池创建" class="headerlink" title="线程池创建"></a>线程池创建</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize, <span class="keyword">int</span> maximumPoolSize, <span class="keyword">long</span> keepAliveTime, TimeUnit unit, BlockingQueue&lt;Runnable&gt; workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler)</span> </span>&#123; &#125;</span><br></pre></td></tr></table></figure>
+<p>常用参数：<br><strong>**核心线程数</strong> corePoolSize*<em>：数量看具体情况，计算型任务一般为cpu+1，多连接型任务一般为cpu</em>2，创建后不销毁。<br><strong>阻塞队列 workQueue</strong>：线程数超过核心线程数时存放任务的队列<br>常用的有：<br>有界数组(ArrayBlockingQueue)<br>有界链表(LinkedBlockingQueue)<br>优先级排序的无界(priorityBlockingQueue)<br>延迟获取的无界(delayQueue)。要谨慎使用，使用不当容易造成任务阻塞过多，OOM。<br><strong>最大线程数 maximumPoolSize</strong>：核心线程满了，阻塞队列也满了，才考虑现有线程与最大线程数的对比<br><strong>最大存活时间 keepAliveTime</strong>：线程数&gt;核心线程数时，空闲线程的存活时间，包括等待队列和非核心线程<br><strong>拒绝策略 handler</strong>：实现 RejectedExecutionHandler接口<br>                  丢弃并抛出异常<br>                  丢弃不抛异常<br>                  删除现有任务重新提交被拒绝任务<br>                  调用线程处理该任务</p>
+<h3 id="线程池执行："><a href="#线程池执行：" class="headerlink" title="线程池执行："></a>线程池执行：</h3><p><strong>执行策略</strong>：<br>任务进来-&gt;核心线程未满，创建核心线程/核心线程满了，等待队列未满，进等待队列/等待队列满了，非核心线程未满，创建非核心线程/非核心线程满了-&gt;执行拒接策略<br><img src="https://img-blog.csdnimg.cn/0954960898044910a71669a624399836.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><strong>工作线程</strong>：<br>继承AQS，实现非可重入锁<br><strong>创建 addWorker</strong><br> <img src="https://img-blog.csdnimg.cn/c73be0e97b5343dba31c60116924fa07.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><strong>回收</strong><br><img src="https://img-blog.csdnimg.cn/20bca00d76ea4c0aaa32e5d8e2a3934d.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><strong>工作流程</strong><br><img src="https://img-blog.csdnimg.cn/cd78f00d6bf443548af8c757a18aab54.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="线程池应用场景"><a href="#线程池应用场景" class="headerlink" title="线程池应用场景"></a>线程池应用场景</h3><p>思想：将串行的任务并行化，减小任务最短路径</p>
+<ol>
+<li>快速响应、多请求的场景，IO密集型<br>在优先的时间内尽可能快的处理任务，响应速度优先<br>要求快速处理，所以少用/不用阻塞队列(同步队列)，增大核心线程数和最大线程数</li>
+</ol>
+<ol start="2">
+<li>密集计算型<br>在有限时间内处理足够多的任务，吞吐量优先，CPU密集型<br>所以要尽量使用队列（声明容量的有界队列，防止任务无限制堆积），核心线程数不必过多，减少线程上下文切换的频率，降低开销<br>核心线程数 = cpu数+1</li>
+</ol>
+<p>一般的业务场景下，参数写好固定；<br>在高并发的业务场景下，考虑线程池参数的动态设置，原理是使用ThreadPoolExcutor自带的 set()和get()方法，美团外卖平台使用的就是动态配置。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/123328822">Java线程池实现原理及其在美团业务中的实践</a> </p>
+<h3 id="常用线程池"><a href="#常用线程池" class="headerlink" title="常用线程池"></a>常用线程池</h3><p>在Excutors中有些定义好的常用线程池<br><strong>newFixedThreadPool</strong><br>常用于固定业务，核心线程数=最大线程数，使用有界队列，队列最大值为Integer.MAX_VALUE，<strong>容易出现大量任务缓存等待的情况</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,</span><br><span class="line">                                  <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                  <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>newCachedThreadPool</strong><br>核心线程数为0，最大线程数为Integer.MAX_VALUE，使用同步队列，可复用空余线程，常用于<strong>短时间高频率</strong>的处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE,</span><br><span class="line">                                  <span class="number">60L</span>, TimeUnit.SECONDS,</span><br><span class="line">                                  <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>newSingleThreadExecutor</strong><br>单例，核心线程数=最大线程数=1，常用于处理<strong>串行任务</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newSingleThreadExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> FinalizableDelegatedExecutorService</span><br><span class="line">        (<span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">                                <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>newScheduledThreadPool</strong><br>定时线程池，使用<strong>优先级队列（堆实现）</strong>，所以可以实现定时/延时功能。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ScheduledExecutorService <span class="title">newScheduledThreadPool</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ScheduledThreadPoolExecutor(corePoolSize);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ScheduledThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(corePoolSize, Integer.MAX_VALUE, <span class="number">0</span>, TimeUnit.NANOSECONDS,</span><br><span class="line">          <span class="keyword">new</span> DelayedWorkQueue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()+<span class="number">1</span>);</span><br><span class="line">ExecutorCompletionService&lt;Map&lt;String, String&gt;&gt; service = <span class="keyword">new</span> ExecutorCompletionService&lt;Map&lt;String, String&gt;&gt;(pool);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       
     </div>
@@ -463,8 +545,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/undefined/Spring%20AOP%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" rel="next" title="AOP知识梳理">
-                <i class="fa fa-chevron-left"></i> AOP知识梳理
+              <a href="/undefined/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E9%94%A6%E9%9B%86/" rel="next" title="技术文章集锦（美团技术团队篇）">
+                <i class="fa fa-chevron-left"></i> 技术文章集锦（美团技术团队篇）
               </a>
             
           </div>
@@ -472,10 +554,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/undefined/Java%E9%9B%86%E5%90%88%E4%B9%8BHashMap%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93%EF%BC%89/" rel="prev" title="hashMap知识梳理">
-                hashMap知识梳理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -554,7 +632,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -565,7 +643,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -576,7 +654,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -625,7 +703,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">写在前面：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">一、线程与进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">二、线程实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BA%BF%E7%A8%8B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%8F%8A%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2"><span class="nav-number">4.</span> <span class="nav-text">三、线程生命周期及状态转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-number">5.</span> <span class="nav-text">四、常见操作方法分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">6.</span> <span class="nav-text">五、线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%B8%B8%E8%A7%81%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8"><span class="nav-number">7.</span> <span class="nav-text">六、常见并发容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="nav-number">8.</span> <span class="nav-text">七、线程安全</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">写在前面：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">一、线程与进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E7%A8%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">二、线程实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BA%BF%E7%A8%8B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%8F%8A%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2"><span class="nav-number">4.</span> <span class="nav-text">三、线程生命周期及状态转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95%E5%88%86%E6%9E%90"><span class="nav-number">5.</span> <span class="nav-text">四、常见操作方法分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">6.</span> <span class="nav-text">五、线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%A0%E5%8C%96%E6%80%9D%E6%83%B3%EF%BC%9A"><span class="nav-number">6.1.</span> <span class="nav-text">池化思想：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%88%9B%E5%BB%BA"><span class="nav-number">6.2.</span> <span class="nav-text">线程池创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%89%A7%E8%A1%8C%EF%BC%9A"><span class="nav-number">6.3.</span> <span class="nav-text">线程池执行：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">6.4.</span> <span class="nav-text">线程池应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">6.5.</span> <span class="nav-text">常用线程池</span></a></li></ol></li></ol></div>
             
 
           </div>
