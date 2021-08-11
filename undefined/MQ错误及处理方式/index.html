@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="MQ问题及处理方式最近在工作中遇到了一些关于MQ订单同步失败等问题，对MQ的错误处理方式有了些实操经验，加上相关文档和博客的阅读，整理知识点如下： 一、重复消费（幂等性问题）幂等性：一次消费跟多次消费的结果一致 问题举例：使用MQ进行订单同步时，订单状态在同步到业务库后发生了改变（审核），这个时候业务库挂了，再重新读这条消息进行修改，就会出现因重复消费而导致的幂等性问题。 解决办法:1.记录MQ同">
+<meta name="description" content="MQ问题及处理方式最近在工作中遇到了一些关于MQ订单同步失败等问题，对MQ的错误处理方式有了些实操经验，加上相关文档和博客的阅读，整理知识点如下： 一、重复消费（幂等性问题）RocketMQ不保证消息不重复幂等性：一次消费跟多次消费的结果一致 问题举例：使用MQ进行订单同步时，订单状态在同步到业务库后发生了改变（审核），这个时候业务库挂了，再重新读这条消息进行修改，就会出现因重复消费而导致的幂等性">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MQ问题及处理方式">
 <meta property="og:url" content="http://example.com/undefined/MQ%E9%94%99%E8%AF%AF%E5%8F%8A%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/index.html">
 <meta property="og:site_name" content="巴卡玛卡">
-<meta property="og:description" content="MQ问题及处理方式最近在工作中遇到了一些关于MQ订单同步失败等问题，对MQ的错误处理方式有了些实操经验，加上相关文档和博客的阅读，整理知识点如下： 一、重复消费（幂等性问题）幂等性：一次消费跟多次消费的结果一致 问题举例：使用MQ进行订单同步时，订单状态在同步到业务库后发生了改变（审核），这个时候业务库挂了，再重新读这条消息进行修改，就会出现因重复消费而导致的幂等性问题。 解决办法:1.记录MQ同">
+<meta property="og:description" content="MQ问题及处理方式最近在工作中遇到了一些关于MQ订单同步失败等问题，对MQ的错误处理方式有了些实操经验，加上相关文档和博客的阅读，整理知识点如下： 一、重复消费（幂等性问题）RocketMQ不保证消息不重复幂等性：一次消费跟多次消费的结果一致 问题举例：使用MQ进行订单同步时，订单状态在同步到业务库后发生了改变（审核），这个时候业务库挂了，再重新读这条消息进行修改，就会出现因重复消费而导致的幂等性">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-04-12T03:45:59.330Z">
-<meta property="article:modified_time" content="2021-04-12T05:50:05.634Z">
+<meta property="article:modified_time" content="2021-08-11T08:55:51.394Z">
 <meta property="article:author" content="人和">
 <meta property="article:tag" content="MQ">
 <meta name="twitter:card" content="summary">
@@ -351,7 +351,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  576
+                  640
                 </span>
               
 
@@ -367,7 +367,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  2
                 </span>
               
             </div>
@@ -389,12 +389,12 @@
 
       
         <h2 id="MQ问题及处理方式"><a href="#MQ问题及处理方式" class="headerlink" title="MQ问题及处理方式"></a>MQ问题及处理方式</h2><p>最近在工作中遇到了一些关于MQ订单同步失败等问题，对MQ的错误处理方式有了些实操经验，加上相关文档和博客的阅读，整理知识点如下：</p>
-<h3 id="一、重复消费（幂等性问题）"><a href="#一、重复消费（幂等性问题）" class="headerlink" title="一、重复消费（幂等性问题）"></a>一、重复消费（幂等性问题）</h3><p>幂等性：一次消费跟多次消费的结果一致</p>
+<h3 id="一、重复消费（幂等性问题）"><a href="#一、重复消费（幂等性问题）" class="headerlink" title="一、重复消费（幂等性问题）"></a>一、重复消费（幂等性问题）</h3><p>RocketMQ不保证消息不重复<br>幂等性：一次消费跟多次消费的结果一致</p>
 <p>问题举例：<br>使用MQ进行订单同步时，<br>订单状态在同步到业务库后发生了改变（审核），这个时候业务库挂了，再重新读这条消息进行修改，就会出现因重复消费而导致的幂等性问题。</p>
 <p>解决办法:<br>1.记录MQ同步日志，在同步前进行逻辑判断。消费端增加消费日志，完成消费前进行逻辑判断。<br>2.修改订单时，增加对原订单状态的判断，如微信支付接口，支付结果通知，可以将支付中改为支付成功，但再次修改时，支付成功状态不能通过逻辑判断<br>3.生产者存一条数据时，加一个全局变量。消费者消费时，先查redis里有没有，没有就正常消费，并往redis中存下这个全局变量。有的话是说明消费过了，不再重复消费<br>4.对于数据库插入场景，消费者进行消费时先查后插。</p>
 <h3 id="二、消息丢失"><a href="#二、消息丢失" class="headerlink" title="二、消息丢失"></a>二、消息丢失</h3><p>问题举例：<br>生产者没发出去<br>消息队列内存丢失<br>消费者没收完</p>
 <p>解决办法：<br>事务/放到消息队列后回传code，否则重复发送n次，记录错误日志并通知<br>持久化消息队列<br>将回传机制延长到消费者处理完成</p>
-<h3 id="三、消息乱序"><a href="#三、消息乱序" class="headerlink" title="三、消息乱序"></a>三、消息乱序</h3><p>问题举例：<br>申请退款（两次修改状态）、取消订单（先插后删）、在原基础追加订单（依赖）<br>这种‘两条消息’的，要保证顺序先后</p>
+<h3 id="三、消息乱序"><a href="#三、消息乱序" class="headerlink" title="三、消息乱序"></a>三、消息乱序</h3><p>RocketMQ可以保证（局部）顺序消息，生产者在调用队列选择器时，同一个OrderId获取到的队列是同一个队列，这样就在生产端保证了消息的顺序性。<br>问题举例：<br>申请退款（两次修改状态）、取消订单（先插后删）、在原基础追加订单（依赖）<br>这种‘两条消息’的，要保证顺序先后</p>
 <p>解决方案：<br>生产者时间戳+消费者验证<br>消息队列拆分Queue，同种消息进入同一Queue。创建多个消费者</p>
 <h3 id="四、消息积压"><a href="#四、消息积压" class="headerlink" title="四、消息积压"></a>四、消息积压</h3><p>问题举例：<br>集中下订单时，当天来不及消费，客户说想今天记账</p>
 <p>解决方案：<br>增加临时消息队列、增加消费者</p>
@@ -438,8 +438,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/undefined/520/" rel="prev" title="《你是》">
-                《你是》 <i class="fa fa-chevron-right"></i>
+              <a href="/undefined/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E9%94%A6%E9%9B%86/" rel="prev" title="技术文章集锦（美团技术团队篇）">
+                技术文章集锦（美团技术团队篇） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -541,7 +541,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

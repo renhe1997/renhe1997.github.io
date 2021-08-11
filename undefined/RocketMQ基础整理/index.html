@@ -79,18 +79,22 @@
 
 
 
-<meta name="description" content="优点首先，放一波RocketMQ的优点，也就是为什么要选用它 高吞吐量，低延迟高效堆积；亿级消息堆积能力完全分布式；客户端，服务端都是分布式的，每个结点的变化都能动态负载顺序消息；能保证消息的严格顺序实时消息订阅丰富的消息拉取模式消息内容查询消息回溯分布式事务消息支持consumer端tag过滤，减少不必要的网络传输（rabbitmq和kafka不支持） 架构及各组件说明Name Server名称">
+<meta name="description" content="优点 高吞吐量，低延迟 顺序消息 分布式事务消息  consumer端tag过滤  架构及各组件说明架构图如下： Name Server名称服务脱胎于Zookeeper,但3.0后精简，去掉了Master选举、分布式锁等保证强一致性的内容。变化后的Name Server是一个几乎无状态节点，可集群部署，节点之间无任何信息同步，也就不存在主备一说 NameServer只需要保持最终一致，要求保证高可">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RocketMQ基础架构整理">
 <meta property="og:url" content="http://example.com/undefined/RocketMQ%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/index.html">
 <meta property="og:site_name" content="巴卡玛卡">
-<meta property="og:description" content="优点首先，放一波RocketMQ的优点，也就是为什么要选用它 高吞吐量，低延迟高效堆积；亿级消息堆积能力完全分布式；客户端，服务端都是分布式的，每个结点的变化都能动态负载顺序消息；能保证消息的严格顺序实时消息订阅丰富的消息拉取模式消息内容查询消息回溯分布式事务消息支持consumer端tag过滤，减少不必要的网络传输（rabbitmq和kafka不支持） 架构及各组件说明Name Server名称">
+<meta property="og:description" content="优点 高吞吐量，低延迟 顺序消息 分布式事务消息  consumer端tag过滤  架构及各组件说明架构图如下： Name Server名称服务脱胎于Zookeeper,但3.0后精简，去掉了Master选举、分布式锁等保证强一致性的内容。变化后的Name Server是一个几乎无状态节点，可集群部署，节点之间无任何信息同步，也就不存在主备一说 NameServer只需要保持最终一致，要求保证高可">
 <meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/3038a877224e4825ba45cd46ed97d065.webp?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/55fd35d815284c40aa2f9dc8c4cd2721.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b45eac9d2b824c1690b15912107e1d7d.webp?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="article:published_time" content="2021-08-09T09:30:02.947Z">
-<meta property="article:modified_time" content="2021-08-09T09:30:03.225Z">
+<meta property="article:modified_time" content="2021-08-11T09:10:00.102Z">
 <meta property="article:author" content="人和">
 <meta property="article:tag" content="MQ">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/3038a877224e4825ba45cd46ed97d065.webp?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
 
 
 
@@ -351,7 +355,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.4k
+                  1.6k
                 </span>
               
 
@@ -388,30 +392,52 @@
       
 
       
-        <h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>首先，放一波RocketMQ的优点，也就是为什么要选用它</p>
-<p>高吞吐量，低延迟<br>高效堆积；亿级消息堆积能力<br>完全分布式；客户端，服务端都是分布式的，每个结点的变化都能动态负载<br>顺序消息；能保证消息的严格顺序<br>实时消息订阅<br>丰富的消息拉取模式<br>消息内容查询<br>消息回溯<br>分布式事务消息<br>支持consumer端tag过滤，减少不必要的网络传输（rabbitmq和kafka不支持）</p>
-<h2 id="架构及各组件说明"><a href="#架构及各组件说明" class="headerlink" title="架构及各组件说明"></a>架构及各组件说明</h2><h2 id="Name-Server"><a href="#Name-Server" class="headerlink" title="Name Server"></a>Name Server</h2><p>名称服务<br>脱胎于Zookeeper,但3.0后精简，去掉了Master选举、分布式锁等保证强一致性的内容。<br>变化后的Name Server是一个几乎无状态节点，可集群部署，节点之间无任何信息同步，也就不存在主备/分布式一说</p>
-<p>NameServer只需要保持最终一致，要求保证高可用性，所以使用的是CAP理论中的AP架构（可用性和分区容错性）</p>
-<p>每台Name Server上都保存了所有Broker的路由信息，任何一台集群中的机器宕机，其他机器都可以继续提供服务。</p>
+        <h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ol>
+<li>高吞吐量，低延迟</li>
+<li>顺序消息</li>
+<li>分布式事务消息 </li>
+<li>consumer端tag过滤</li>
+</ol>
+<h2 id="架构及各组件说明"><a href="#架构及各组件说明" class="headerlink" title="架构及各组件说明"></a>架构及各组件说明</h2><p>架构图如下：<br><img src="https://img-blog.csdnimg.cn/3038a877224e4825ba45cd46ed97d065.webp?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="Name-Server"><a href="#Name-Server" class="headerlink" title="Name Server"></a>Name Server</h3><p><strong>名称服务</strong><br>脱胎于Zookeeper,但3.0后精简，去掉了Master选举、分布式锁等保证强一致性的内容。<br>变化后的Name Server是一个<strong>几乎无状态节点</strong>，可集群部署，<strong>节点之间无任何信息同步</strong>，也就不存在主备一说</p>
+<p>NameServer只需要保持最终一致，要求保证高可用性，所以使用的是CAP理论中的<strong>AP架构</strong>（可用性和分区容错性）<br>每台Name Server上都保存了所有Broker的路由信息（Broker表），任何一台集群中的机器宕机，其他机器都可以继续提供服务。</p>
 <p>生产者，消费者和Broker都是与所有NameServer通信<br>生产者和消费者是向Name Server请求数据，而Broker是向Name Server发送数据。</p>
-<h2 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h2><p>消息队列服务器<br>Master与Slave的对应关系通过指定相同的Broker Name，不同的Broker Id来定义<br>一个Broker集群由多组Master/Slave组成，Master可写可读，Slave只可以读，Master将写入的数据同步给Slave</p>
-<h2 id="Producer"><a href="#Producer" class="headerlink" title="Producer"></a>Producer</h2><p>生产者<br>Producer与Name Server集群中的其中一个节点(随机选择)建立长连接<br>定期从Name Server取Topic路由信息（包括Topic下面有哪些Queue，这些Queue分布在哪些Broker上等）<br>因为只写数据，而Master可写可读，所以只与提供Topic服务的Master建立长连接，且定时向Master发送心跳。<br>Producer完全无状态，可集群部署。</p>
+<p>更多内容详见文章[nameServer详述]</p>
+<h3 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h3><p><strong>消息队列服务器</strong><br>Master与Slave的对应关系通过指定相同的Broker Name，不同的Broker Id来定义，BrokerId=0表示Master，非0表示Slave<br>一个Broker集群由多组Master/Slave组成，<strong>Master可写可读</strong>，<strong>Slave只可以读</strong>，Master将写入的数据同步给Slave<br>Broker启动后轮询nameServer列表，与每个nameServer建立长连接，30s发一次心跳以证明自己存活。</p>
+<h3 id="Producer"><a href="#Producer" class="headerlink" title="Producer"></a>Producer</h3><p><strong>生产者</strong></p>
+<p>Producer与Name Server集群中的其中一个节点(随机选择)建立长连接。</p>
+<p>定期从Name Server取Topic路由信息（包括Topic下面有哪些Queue，这些Queue分布在哪些Broker上等）</p>
+<p>因为只写数据，而Master可写可读，所以只与提供Topic服务的Master建立长连接，且定时向Master发送心跳。</p>
+<p>Producer<strong>完全无状态</strong>，可集群部署。</p>
 <p>Producer每隔30s（由ClientConfig的pollNameServerInterval）从Name server获取所有topic队列的最新情况，这意味着如果Broker不可用，Producer最多30s能够感知，在此期间内发往Broker的所有消息都会失败。</p>
 <p>Producer每隔30s（由ClientConfig中heartbeatBrokerInterval决定）向所有关联的broker发送心跳，Broker每隔10s中扫描所有存活的连接，如果Broker在2分钟内没有收到心跳数据，则关闭与Producer的连接。</p>
-<p>Producer轮询某topic下的所有队列的方式来实现发送方的负载均衡</p>
-<p>product实践策略：<br>1、一个应用尽可能用一个 Topic，消息子类型用 tags 来标识，tags 可以由应用自由设置。只有发送消息设置了tags，消费方在订阅消息时，才可以利用 tags 在 broker 做消息过滤。<br>2、每个消息在业务层面的唯一标识码，要设置到 keys 字段，方便将来定位消息丢失问题。由于是哈希索引，请务必保证 key 尽可能唯一，这样可以避免潜在的哈希冲突。<br>3、消息发送成功或者失败，要打印消息日志，务必要打印 sendresult 和 key 字段。<br>4、对于消息不可丢失应用，务必要有消息重发机制。例如：消息发送失败，存储到数据库，能有定时程序尝试重发或者人工触发重发。<br>5、某些应用如果不关注消息是否发送成功，请直接使用sendOneWay方法发送消息。</p>
-<h2 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h2><p>消费者<br>Consumer与Name Server集群中的其中一个节点(随机选择)建立长连接，定期从Name Server取Topic路由信息</p>
-<p>因为只读，而Master、Slave都可提供读服务，所以需要向提供Topic服务的Master、Slave建立长连接<br>且定时向Master、Slave发送心跳。</p>
+<p><strong><em>Producer轮询某topic下的所有队列的方式来实现发送方的负载均衡</em></strong></p>
+<h3 id="product实践策略："><a href="#product实践策略：" class="headerlink" title="product实践策略："></a>product实践策略：</h3><p>1、<strong>一个应用尽可能用一个 Topic</strong>，消息子类型用 tags 来标识，tags 可以由应用自由设置。只有发送消息设置了tags，消费方在订阅消息时，才可以利用 tags 在 broker 做消息过滤。<br>2、每个消息在业务层面的唯一标识码，<strong>要设置到 keys 字段</strong>，方便将来定位消息丢失问题。由于是哈希索引，<strong>请务必保证 key 尽可能唯一</strong>，这样可以避免潜在的哈希冲突。<br>3、消息发送成功或者失败，要<strong>打印消息日志</strong>，务必要打印 sendresult 和 key 字段。<br>4、对于消息不可丢失应用，务必要有<strong>消息重发机制</strong>。例如：消息发送失败，存储到数据库，能有定时程序尝试重发或者人工触发重发。<br>5、某些应用如果不关注消息是否发送成功，请直接使用sendOneWay方法发送消息。</p>
+<h3 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h3><p><strong>消费者</strong></p>
+<p>Consumer与Name Server集群中的其中一个节点(随机选择)建立长连接，定期从Name Server取Topic路由信息。</p>
+<p>因为只读，而Master、Slave都可提供读服务，所以需要向提供Topic服务的Master、Slave建立长连接，且定时向Master、Slave发送心跳。</p>
 <p>Consumer既可以从Master订阅消息，也可以从Slave订阅消息，订阅规则由Broker配置决定。</p>
 <p>Consumer每隔30s从Name server获取topic的最新队列情况，这意味着Broker不可用时，Consumer最多最需要30s才能感知。</p>
 <p>Consumer每隔30s（由ClientConfig中heartbeatBrokerInterval决定）向所有关联的broker发送心跳，Broker每隔10s扫描所有存活的连接，若某个连接2分钟内没有发送心跳数据，则关闭连接；并向该Consumer Group的所有Consumer发出通知，Group内的Consumer重新分配队列，然后继续消费。</p>
 <p>当Consumer得到master宕机通知后，转向slave消费，slave不能保证master的消息100%都同步过来了，因此会有少量的消息丢失。但是一旦master恢复，未同步过去的消息会被最终消费掉。</p>
-<p>消费者对列是消费者连接之后（或者之前有连接过）才创建的。我们将原生的消费者标识由 {IP}@{消费者group}扩展为 {IP}@{消费者group}{topic}{tag}，（例如xxx.xxx.xxx.xxx@mqtest_producer-group_2m2sTest_tag-zyk）。任何一个元素不同，都认为是不同的消费端，每个消费端会拥有一份自己消费对列（默认是broker对列数量*broker数量）。新挂载的消费者对列中拥有commitlog中的所有数据。</p>
-<p>消费类型：</p>
-<p>广播消费<br>一条消息被多个Consumer消费，即使这些Consumer属于同一个Consumer Group，消息也会被Consumer Group中的每个Consumer都消费一次。<br>每个consumer都会收到topic中全部的消息。</p>
-<p>集群消费<br>一个Consumer Group中的Consumer实例平均分摊消费消息。例如某个Topic有 9 条消息，其中一个Consumer Group有 3 个实例(可能是 3 个进程,或者 3 台机器)，那么每个实例只消费其中的 3 条消息。<br>每个Consumer Group 都会收到topic中全部的消息。</p>
-<p>多事务一致性：<br>TCC:Try-Confirm-Cancel</p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xuwc/p/9034352.html">https://www.cnblogs.com/xuwc/p/9034352.html</a></p>
+<h3 id="消费类型："><a href="#消费类型：" class="headerlink" title="消费类型："></a>消费类型：</h3><ol>
+<li><p>广播消费<br>一条消息被多个Consumer消费，即使这些Consumer属于同一个Consumer Group，消息也会被Consumer Group中的每个Consumer都消费一次。<br>每个consumer都会收到topic中全部的消息。</p>
+</li>
+<li><p>集群消费<br>是一种天然的消息负载均衡。一个Consumer Group中的Consumer实例平均分摊消费消息。例如某个Topic有 9 条消息，其中一个Consumer Group有 3 个实例(可能是 3 个进程,或者 3 台机器)，那么每个实例只消费其中的 3 条消息。<br>每个Consumer Group 都会收到topic中全部的消息。</p>
+</li>
+</ol>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><h3 id="topic"><a href="#topic" class="headerlink" title="topic"></a>topic</h3><p>标题，消息的一级标签（可以理解为<strong>同一业务逻辑消息的组织形式</strong>），一般一个应用对应一个topic，在业务中表现为”订单中心消息”、”支付中心消息”、”物流中心消息”等。<br>topic、Query、Broker，这三者之间的关系如下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/55fd35d815284c40aa2f9dc8c4cd2721.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="target"><a href="#target" class="headerlink" title="target"></a>target</h3><p>标签，消息的二级标签，在业务中表现为”insert”、”delete”等，<strong>可以没有</strong>，一般会用于消费端的<strong>消息过滤、预防重复消费</strong>等问题。</p>
+<h3 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h3><p>消息队列，消息的集合形式，一个topic下可以有多个Query（一般为四个），消息发送需要选定一个topic，然后MQ会轮训topic下所有的query，把消息发出去。</p>
+<h2 id="顺序消息"><a href="#顺序消息" class="headerlink" title="顺序消息"></a>顺序消息</h2><p>RocketMQ不能保证严格意义上的顺序消息，但可以通过一定手段保证局部的顺序消息：</p>
+<ol>
+<li>生产者按照顺序（非异步）把消息发到<strong>同一个消息队列</strong>（Query而非topic）里，保证<strong>orderId相同时获取到的队列相同</strong></li>
+<li>消息队列先进先出</li>
+<li>消费者注册消息监听器为<strong>MessageListenerOrderly</strong>，<strong>保证只有一个线程去消费消息</strong></li>
+</ol>
+<h2 id="多事务一致性："><a href="#多事务一致性：" class="headerlink" title="多事务一致性："></a>多事务一致性：</h2><p>TCC:Try-Confirm-Cancel，涉及较多，之后再另作讨论。<br>下图是交易系统与其他系统使用MQ进行数据同步时，事务一致性的方案。<br><img src="https://img-blog.csdnimg.cn/b45eac9d2b824c1690b15912107e1d7d.webp?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xuwc/p/9034352.html">https://www.cnblogs.com/xuwc/p/9034352.html</a></p>
 
       
     </div>
@@ -451,6 +477,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/undefined/NameServer%E8%AF%A6%E8%BF%B0/" rel="prev" title="Name Server详述">
+                Name Server详述 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -551,7 +581,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -600,7 +630,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%90%84%E7%BB%84%E4%BB%B6%E8%AF%B4%E6%98%8E"><span class="nav-number">2.</span> <span class="nav-text">架构及各组件说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Name-Server"><span class="nav-number">3.</span> <span class="nav-text">Name Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Broker"><span class="nav-number">4.</span> <span class="nav-text">Broker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Producer"><span class="nav-number">5.</span> <span class="nav-text">Producer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Consumer"><span class="nav-number">6.</span> <span class="nav-text">Consumer</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%90%84%E7%BB%84%E4%BB%B6%E8%AF%B4%E6%98%8E"><span class="nav-number">2.</span> <span class="nav-text">架构及各组件说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Name-Server"><span class="nav-number">2.1.</span> <span class="nav-text">Name Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Broker"><span class="nav-number">2.2.</span> <span class="nav-text">Broker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Producer"><span class="nav-number">2.3.</span> <span class="nav-text">Producer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#product%E5%AE%9E%E8%B7%B5%E7%AD%96%E7%95%A5%EF%BC%9A"><span class="nav-number">2.4.</span> <span class="nav-text">product实践策略：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumer"><span class="nav-number">2.5.</span> <span class="nav-text">Consumer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="nav-number">2.6.</span> <span class="nav-text">消费类型：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#topic"><span class="nav-number">3.1.</span> <span class="nav-text">topic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#target"><span class="nav-number">3.2.</span> <span class="nav-text">target</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Query"><span class="nav-number">3.3.</span> <span class="nav-text">Query</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF"><span class="nav-number">4.</span> <span class="nav-text">顺序消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%BA%8B%E5%8A%A1%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">多事务一致性：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>

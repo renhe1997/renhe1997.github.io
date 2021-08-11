@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="MQ," />
 
 
 
@@ -79,15 +79,20 @@
 
 
 
-<meta name="description" content="而吾与子之所共识">
-<meta property="og:type" content="website">
-<meta property="og:title" content="巴卡玛卡">
-<meta property="og:url" content="http://example.com/archives/2021/05/index.html">
+<meta name="description" content="nameServer各个节点间无通信，无主备等状态。那么，怎么保证数据一致性呢（这里讨论的是有容错范围的弱一致性） 答案是：Broker表+心跳包+长连接，下面从路由注册、路由剔除、路由发现等方面讨论弱一致性的实现。 服务架构 名词解释：Broker表：存储Broker的信息，BrokerId、BrokerName、Broker地址、Broker所属集群名称、心跳包最新更新时间等。有意思的是，Na">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Name Server详述">
+<meta property="og:url" content="http://example.com/undefined/NameServer%E8%AF%A6%E8%BF%B0/index.html">
 <meta property="og:site_name" content="巴卡玛卡">
-<meta property="og:description" content="而吾与子之所共识">
+<meta property="og:description" content="nameServer各个节点间无通信，无主备等状态。那么，怎么保证数据一致性呢（这里讨论的是有容错范围的弱一致性） 答案是：Broker表+心跳包+长连接，下面从路由注册、路由剔除、路由发现等方面讨论弱一致性的实现。 服务架构 名词解释：Broker表：存储Broker的信息，BrokerId、BrokerName、Broker地址、Broker所属集群名称、心跳包最新更新时间等。有意思的是，Na">
 <meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c0f98f474b03411cb3caecc0db699dec.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="article:published_time" content="2021-08-11T08:41:50.508Z">
+<meta property="article:modified_time" content="2021-08-11T09:10:05.968Z">
 <meta property="article:author" content="人和">
+<meta property="article:tag" content="MQ">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/c0f98f474b03411cb3caecc0db699dec.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
 
 
 
@@ -117,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/archives/2021/05/"/>
+  <link rel="canonical" href="http://example.com/undefined/NameServer详述/"/>
 
 
 
 
 
-  <title>归档 | 巴卡玛卡</title>
+  <title>Name Server详述 | 巴卡玛卡</title>
   
 
 
@@ -142,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -246,74 +251,211 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
-
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        嗯..! 目前共计 18 篇日志。 继续努力。
-      </span>
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2021">2021</h1>
-          </div>
-        
-        
-
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/undefined/NameServer%E8%AF%A6%E8%BF%B0/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="人和">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/panda.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="巴卡玛卡">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/undefined/520/" itemprop="url">
-              
-                <span itemprop="name">《你是》</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Name Server详述</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2021-05-20T18:36:27+08:00"
-              content="2021-05-20" >
-          05-20
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-08-11T16:41:50+08:00">
+                2021-08-11
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index">
+                    <span itemprop="name">中间件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  436
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <p>nameServer各个节点间无通信，无主备等状态。<br>那么，怎么保证数据一致性呢（这里讨论的是有容错范围的弱一致性）</p>
+<p>答案是：Broker表+心跳包+长连接，下面从路由注册、路由剔除、路由发现等方面讨论弱一致性的实现。</p>
+<h2 id="服务架构"><a href="#服务架构" class="headerlink" title="服务架构"></a>服务架构</h2><p><img src="https://img-blog.csdnimg.cn/c0f98f474b03411cb3caecc0db699dec.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="名词解释："><a href="#名词解释：" class="headerlink" title="名词解释："></a>名词解释：</h2><p><strong>Broker表</strong>：<br>存储Broker的信息，BrokerId、BrokerName、Broker地址、Broker所属集群名称、心跳包最新更新时间等。<br>有意思的是，NameServer在处理心跳包的时候，存在多个Broker同时操作一张Broker表，为了防止并发修改Broker表导致不安全，路由注册操作引入了<strong>ReadWriteLock读写锁</strong>，这个设计亮点允许多个消息生产者并发读，保证了消息发送时的高并发，但是同一时刻NameServer只能处理一个Broker心跳包，多个心跳包串行处理。这也是读写锁的经典使用场景，即读多写少。</p>
+<h2 id="路由注册："><a href="#路由注册：" class="headerlink" title="路由注册："></a>路由注册：</h2><p>Broker启动后轮询nameServer列表，与每个nameServer建立长连接，30s发一次心跳包以证明自己存活。</p>
+<h2 id="路由剔除："><a href="#路由剔除：" class="headerlink" title="路由剔除："></a>路由剔除：</h2><p>正常情况下，如果Broker关闭，netty的通道关闭监听器会监听到连接关闭事件，做出反应。<br>异常情况下，nameSpace每10s扫描Broker表，如果发现某Broker的心跳包最新时间超过当前120s，那么判定为失效并清除。</p>
+<h2 id="路由发现："><a href="#路由发现：" class="headerlink" title="路由发现："></a>路由发现：</h2><p>这是由生产者/消费者主动发现的一个过程，生产者/消费者默认每隔30秒会定时请求NameServer并获取最新的路由表<br>如果在30s之内路由信息有变化，导致有消息未发送/未被消费，可使用重试机制。</p>
+
+      
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MQ/" rel="tag"># MQ</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/undefined/RocketMQ%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/" rel="next" title="RocketMQ基础架构整理">
+                <i class="fa fa-chevron-left"></i> RocketMQ基础架构整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -321,6 +463,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -341,8 +487,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -381,7 +536,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -420,6 +575,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">服务架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">名词解释：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E6%B3%A8%E5%86%8C%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">路由注册：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%89%94%E9%99%A4%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">路由剔除：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%8F%91%E7%8E%B0%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">路由发现：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -556,6 +727,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
