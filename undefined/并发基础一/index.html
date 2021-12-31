@@ -92,7 +92,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20bca00d76ea4c0aaa32e5d8e2a3934d.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/cd78f00d6bf443548af8c757a18aab54.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="article:published_time" content="2021-07-23T02:01:10.514Z">
-<meta property="article:modified_time" content="2021-07-23T02:01:17.956Z">
+<meta property="article:modified_time" content="2021-12-01T09:40:10.108Z">
 <meta property="article:author" content="人和">
 <meta property="article:tag" content="基础梳理">
 <meta property="article:tag" content="并发">
@@ -359,7 +359,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.4k
+                  2.5k
                 </span>
               
 
@@ -375,7 +375,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  8
+                  9
                 </span>
               
             </div>
@@ -403,12 +403,12 @@
 <h2 id="二、线程实现"><a href="#二、线程实现" class="headerlink" title="二、线程实现"></a>二、线程实现</h2><p>继承 Thread<br>由于java是单继承，所以基本不用这种实现方式</p>
 <p>实现Runnable<br>接口，重写run()</p>
 <p>实现Callable&amp;Future</p>
-<h2 id="三、线程生命周期及状态转换"><a href="#三、线程生命周期及状态转换" class="headerlink" title="三、线程生命周期及状态转换"></a>三、线程生命周期及状态转换</h2><p><strong>新建</strong><br>new                【来到体育场 】</p>
+<h2 id="三、线程生命周期及状态转换"><a href="#三、线程生命周期及状态转换" class="headerlink" title="三、线程生命周期及状态转换"></a>三、线程生命周期及状态转换</h2><p><strong>新建</strong><br>new              【来到体育场 】</p>
 <p><strong>可运行</strong><br>runnable         【进入备跑区】</p>
 <p>线程对象创建后，其他线程调用了该线程的start方法，进入线程池等待被调度选中，获取cpu使用权。当前线程sleep()方法结束，其他线程join()结束，等待用户输入完毕，某个线程拿到对象锁，这些线程也将进入可运行状态。当前线程时间片用完了，调用当前线程的yield()方法，当前线程进入可运行状态。锁池里的线程拿到对象锁后，进入可运行状态。</p>
-<p><strong>运行</strong><br>running           【起跑】 </p>
+<p><strong>运行</strong><br>running          【起跑】 </p>
 <p>runnable状态下获得了cpu时间片（timeslice），执行程序。</p>
-<p><strong>阻塞</strong><br>blocked           【停下去做点啥】     </p>
+<p><strong>阻塞</strong><br>blocked          【停下去做点啥】     </p>
 <p>线程因为某些原因放弃了cpu使用权，让出了cpu timeslice，暂停运行。直到线程重新进入runnable。</p>
 <p>所谓阻塞状态是正在运行的线程没有运行结束，暂时让出CPU，这时其他处于就绪状态的线程就可以获得CPU时间，进入运行状态。</p>
 <p>blocked分三种：<br><strong>等待阻塞</strong> wait()方法执行，进入等待队列(waitting queue)<br><strong>同步阻塞</strong> running的线程在获取对象的同步锁时，若该同步锁被别的线程占用，JVM会把它放到锁池(lock pool)中，等拿到锁之后才会进入可运行<br><strong>其他阻塞</strong> Thread.sleep(long ms)                                               睡上五分钟，醒来再进线程池<br>                t.join()                                                                        跑着跑着突然被插队，你不得不停下<br>               发出IO请求时，jvm会把该线程置为阻塞状态。         跑着跑着，你去看了看文件，所以得停下<br>当           sleep()状态超时                                                          睡醒了<br>               join()等待线程终止或者超时                                       插队的人走了或挂了<br>               或者I/O处理完毕时                                                     文件看完了</p>
@@ -424,7 +424,7 @@
 <p>t.join()/t.join(long millis)<br>当前线程里调用其它线程1的join方法，当前线程阻塞，但不释放对象锁，直到线程1执行完毕或者millis时间到，当前线程进入可运行状态。</p>
 <p><strong>obj.wait()</strong><br>当前线程调用对象的wait()方法，当前线程<strong>释放对象锁，进入等待队列</strong>。依靠notify()/notifyAll()唤醒或者wait(long timeout)timeout时间到自动唤醒。</p>
 <p>obj.notify()<br>唤醒在此对象监视器上等待的单个线程，选择是任意性的。notifyAll()唤醒在此对象监视器上等待的所有线程。</p>
-<h2 id="五、线程池"><a href="#五、线程池" class="headerlink" title="五、线程池"></a>五、线程池</h2><p>定义：<br>基于池化思想管理线程的工具，解决的核心问题就是资源管理问题</p>
+<h2 id="五、线程池"><a href="#五、线程池" class="headerlink" title="五、线程池"></a>五、线程池</h2><p>定义：<br>基于池化思想管理线程的工具，解决的核心问题就是资源管理问题，注意，是解决无限的任务和有限的资源之间的矛盾，并不是用来提高响应速度的</p>
 <h3 id="池化思想："><a href="#池化思想：" class="headerlink" title="池化思想："></a>池化思想：</h3><p>为了最大化收益并最小化风险，而将资源统一在一起管理的一种思想。<br>“池化”思想不仅仅能应用在计算机领域，在金融、设备、人员管理、工作管理等领域也有相关的应用。</p>
 <p>在计算机领域中的表现为：统一管理IT资源，包括服务器、存储、和网络资源等等。通过共享资源，使用户在低投入中获益。除去线程池，还有其他比较典型的几种使用策略包括：</p>
 <p>内存池(Memory Pooling)：预先申请内存，提升申请内存速度，减少内存碎片。<br>连接池(Connection Pooling)：预先申请数据库连接，提升申请连接的速度，降低系统的开销。<br>实例池(Object Pooling)：循环使用对象，减少资源在初始化和释放时的昂贵损耗。</p>
@@ -436,10 +436,10 @@
 <p><strong>工作流程</strong><br><img src="https://img-blog.csdnimg.cn/cd78f00d6bf443548af8c757a18aab54.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <h3 id="线程池应用场景"><a href="#线程池应用场景" class="headerlink" title="线程池应用场景"></a>线程池应用场景</h3><p>思想：将串行的任务并行化，减小任务最短路径</p>
 <ol>
-<li>快速响应、多请求的场景，IO密集型<br>在优先的时间内尽可能快的处理任务，响应速度优先<br>要求快速处理，所以少用/不用阻塞队列(同步队列)，增大核心线程数和最大线程数</li>
-</ol>
-<ol start="2">
-<li>密集计算型<br>在有限时间内处理足够多的任务，吞吐量优先，CPU密集型<br>所以要尽量使用队列（声明容量的有界队列，防止任务无限制堆积），核心线程数不必过多，减少线程上下文切换的频率，降低开销<br>核心线程数 = cpu数+1</li>
+<li><p>快速响应、多请求的场景，IO密集型<br>在优先的时间内尽可能快的处理任务，响应速度优先<br>要求快速处理，所以少用/不用阻塞队列(同步队列)，增大核心线程数和最大线程数</p>
+</li>
+<li><p>密集计算型<br>在有限时间内处理足够多的任务，吞吐量优先，CPU密集型<br>所以要尽量使用队列（声明容量的有界队列，防止任务无限制堆积），核心线程数不必过多，减少线程上下文切换的频率，降低开销<br>核心线程数 = cpu数+1</p>
+</li>
 </ol>
 <p>一般的业务场景下，参数写好固定；<br>在高并发的业务场景下，考虑线程池参数的动态设置，原理是使用ThreadPoolExcutor自带的 set()和get()方法，美团外卖平台使用的就是动态配置。</p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/123328822">Java线程池实现原理及其在美团业务中的实践</a> </p>
@@ -451,10 +451,8 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newSingleThreadExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> FinalizableDelegatedExecutorService</span><br><span class="line">        (<span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">                                <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>newScheduledThreadPool</strong><br>定时线程池，使用<strong>优先级队列（堆实现）</strong>，所以可以实现定时/延时功能。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ScheduledExecutorService <span class="title">newScheduledThreadPool</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ScheduledThreadPoolExecutor(corePoolSize);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ScheduledThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(corePoolSize, Integer.MAX_VALUE, <span class="number">0</span>, TimeUnit.NANOSECONDS,</span><br><span class="line">          <span class="keyword">new</span> DelayedWorkQueue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>使用方式</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()+<span class="number">1</span>);</span><br><span class="line">ExecutorCompletionService&lt;Map&lt;String, String&gt;&gt; service = <span class="keyword">new</span> ExecutorCompletionService&lt;Map&lt;String, String&gt;&gt;(pool);</span><br></pre></td></tr></table></figure>
-
 
 
 
@@ -636,7 +634,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -647,7 +645,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -658,7 +656,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

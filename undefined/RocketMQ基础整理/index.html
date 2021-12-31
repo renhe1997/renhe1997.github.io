@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/55fd35d815284c40aa2f9dc8c4cd2721.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/b45eac9d2b824c1690b15912107e1d7d.webp?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="article:published_time" content="2021-08-09T09:30:02.947Z">
-<meta property="article:modified_time" content="2021-08-11T09:10:00.102Z">
+<meta property="article:modified_time" content="2021-09-10T09:18:09.727Z">
 <meta property="article:author" content="人和">
 <meta property="article:tag" content="MQ">
 <meta name="twitter:card" content="summary">
@@ -355,7 +355,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.6k
+                  1.7k
                 </span>
               
 
@@ -371,7 +371,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  5
+                  6
                 </span>
               
             </div>
@@ -428,7 +428,7 @@
 </ol>
 <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><h3 id="topic"><a href="#topic" class="headerlink" title="topic"></a>topic</h3><p>标题，消息的一级标签（可以理解为<strong>同一业务逻辑消息的组织形式</strong>），一般一个应用对应一个topic，在业务中表现为”订单中心消息”、”支付中心消息”、”物流中心消息”等。<br>topic、Query、Broker，这三者之间的关系如下图：</p>
 <p><img src="https://img-blog.csdnimg.cn/55fd35d815284c40aa2f9dc8c4cd2721.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h3 id="target"><a href="#target" class="headerlink" title="target"></a>target</h3><p>标签，消息的二级标签，在业务中表现为”insert”、”delete”等，<strong>可以没有</strong>，一般会用于消费端的<strong>消息过滤、预防重复消费</strong>等问题。</p>
+<h3 id="tags"><a href="#tags" class="headerlink" title="tags"></a>tags</h3><p>标签，消息的二级标签，在业务中表现为”insert”、”delete”等，<strong>可以没有</strong>，一般会用于消费端的<strong>消息过滤、预防重复消费</strong>等问题。</p>
 <h3 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h3><p>消息队列，消息的集合形式，一个topic下可以有多个Query（一般为四个），消息发送需要选定一个topic，然后MQ会轮训topic下所有的query，把消息发出去。</p>
 <h2 id="顺序消息"><a href="#顺序消息" class="headerlink" title="顺序消息"></a>顺序消息</h2><p>RocketMQ不能保证严格意义上的顺序消息，但可以通过一定手段保证局部的顺序消息：</p>
 <ol>
@@ -436,7 +436,8 @@
 <li>消息队列先进先出</li>
 <li>消费者注册消息监听器为<strong>MessageListenerOrderly</strong>，<strong>保证只有一个线程去消费消息</strong></li>
 </ol>
-<h2 id="多事务一致性："><a href="#多事务一致性：" class="headerlink" title="多事务一致性："></a>多事务一致性：</h2><p>TCC:Try-Confirm-Cancel，涉及较多，之后再另作讨论。<br>下图是交易系统与其他系统使用MQ进行数据同步时，事务一致性的方案。<br><img src="https://img-blog.csdnimg.cn/b45eac9d2b824c1690b15912107e1d7d.webp?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="多事务一致性："><a href="#多事务一致性：" class="headerlink" title="多事务一致性："></a>多事务一致性：</h2><p>TCC:Try-Confirm-Cancel，涉及较多，之后再另作讨论。<br>简略来说：<br>1.生产者发一条Prepared消息<br>2.消费者执行本地事务<br>3.生产者提交事务<br>这里，<br>如果1-2失败，生产者消费者均无执行<br>2-3为回调，在一个事务里，不作考虑<br>如果3失败，RocketMQ会定期（默认是1分钟）扫描所有的Prepared消息，做确认/删除的处理</p>
+<p>下图是交易系统与其他系统使用MQ进行数据同步时，事务一致性的方案。<br><img src="https://img-blog.csdnimg.cn/b45eac9d2b824c1690b15912107e1d7d.webp?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NzY2NDE3,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xuwc/p/9034352.html">https://www.cnblogs.com/xuwc/p/9034352.html</a></p>
 
       
@@ -559,7 +560,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -570,7 +571,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -581,7 +582,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -630,7 +631,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%90%84%E7%BB%84%E4%BB%B6%E8%AF%B4%E6%98%8E"><span class="nav-number">2.</span> <span class="nav-text">架构及各组件说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Name-Server"><span class="nav-number">2.1.</span> <span class="nav-text">Name Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Broker"><span class="nav-number">2.2.</span> <span class="nav-text">Broker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Producer"><span class="nav-number">2.3.</span> <span class="nav-text">Producer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#product%E5%AE%9E%E8%B7%B5%E7%AD%96%E7%95%A5%EF%BC%9A"><span class="nav-number">2.4.</span> <span class="nav-text">product实践策略：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumer"><span class="nav-number">2.5.</span> <span class="nav-text">Consumer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="nav-number">2.6.</span> <span class="nav-text">消费类型：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#topic"><span class="nav-number">3.1.</span> <span class="nav-text">topic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#target"><span class="nav-number">3.2.</span> <span class="nav-text">target</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Query"><span class="nav-number">3.3.</span> <span class="nav-text">Query</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF"><span class="nav-number">4.</span> <span class="nav-text">顺序消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%BA%8B%E5%8A%A1%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">多事务一致性：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%90%84%E7%BB%84%E4%BB%B6%E8%AF%B4%E6%98%8E"><span class="nav-number">2.</span> <span class="nav-text">架构及各组件说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Name-Server"><span class="nav-number">2.1.</span> <span class="nav-text">Name Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Broker"><span class="nav-number">2.2.</span> <span class="nav-text">Broker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Producer"><span class="nav-number">2.3.</span> <span class="nav-text">Producer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#product%E5%AE%9E%E8%B7%B5%E7%AD%96%E7%95%A5%EF%BC%9A"><span class="nav-number">2.4.</span> <span class="nav-text">product实践策略：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Consumer"><span class="nav-number">2.5.</span> <span class="nav-text">Consumer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="nav-number">2.6.</span> <span class="nav-text">消费类型：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#topic"><span class="nav-number">3.1.</span> <span class="nav-text">topic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tags"><span class="nav-number">3.2.</span> <span class="nav-text">tags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Query"><span class="nav-number">3.3.</span> <span class="nav-text">Query</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%BA%E5%BA%8F%E6%B6%88%E6%81%AF"><span class="nav-number">4.</span> <span class="nav-text">顺序消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%BA%8B%E5%8A%A1%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">多事务一致性：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
