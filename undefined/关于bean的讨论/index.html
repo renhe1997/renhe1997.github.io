@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="演化 Java BeanWrite once, run anywhere, reuse everywhere那么，对于这种类的要求有：1、所有属性为private2、提供默认构造方法3、提供getter和setter4、实现serializable接口JavaBean可分为两种：一种是有用户界面（UserInterface）的JavaBean；一种是没有用户界面，主要负责处理事务（如数据运算，操纵">
+<meta name="description" content="演化 Java Bean  Write once, run anywhere, reuse everywhere那么，对于这种类的要求有：1、所有属性为private2、提供默认构造方法3、提供getter和setter4、实现serializable接口JavaBean可分为两种：一种是有用户界面（UserInterface）的JavaBean；一种是没有用户界面，主要负责处理事务（如数据运算，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于Bean的讨论">
 <meta property="og:url" content="http://example.com/undefined/%E5%85%B3%E4%BA%8Ebean%E7%9A%84%E8%AE%A8%E8%AE%BA/index.html">
 <meta property="og:site_name" content="巴卡玛卡">
-<meta property="og:description" content="演化 Java BeanWrite once, run anywhere, reuse everywhere那么，对于这种类的要求有：1、所有属性为private2、提供默认构造方法3、提供getter和setter4、实现serializable接口JavaBean可分为两种：一种是有用户界面（UserInterface）的JavaBean；一种是没有用户界面，主要负责处理事务（如数据运算，操纵">
+<meta property="og:description" content="演化 Java Bean  Write once, run anywhere, reuse everywhere那么，对于这种类的要求有：1、所有属性为private2、提供默认构造方法3、提供getter和setter4、实现serializable接口JavaBean可分为两种：一种是有用户界面（UserInterface）的JavaBean；一种是没有用户界面，主要负责处理事务（如数据运算，">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-12-31T02:37:26.451Z">
-<meta property="article:modified_time" content="2021-12-31T07:59:42.341Z">
+<meta property="article:modified_time" content="2021-12-31T08:49:06.652Z">
 <meta property="article:author" content="人和">
 <meta property="article:tag" content="Bean">
 <meta name="twitter:card" content="summary">
@@ -351,7 +351,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.3k
+                  2.1k
                 </span>
               
 
@@ -367,7 +367,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  8
+                  7
                 </span>
               
             </div>
@@ -388,50 +388,70 @@
       
 
       
-        <p>演化</p>
-<p>Java Bean<br>Write once, run anywhere, reuse everywhere<br>那么，对于这种类的要求有：<br>1、所有属性为private<br>2、提供默认构造方法<br>3、提供getter和setter<br>4、实现serializable接口<br>JavaBean可分为两种：<br>一种是有用户界面（UserInterface）的JavaBean；<br>一种是没有用户界面，主要负责处理事务（如数据运算，操纵数据库）的JavaBean。JSP通常访问的是后一种JavaBean。</p>
+        <h3 id="演化"><a href="#演化" class="headerlink" title="演化"></a>演化</h3><ol>
+<li>Java Bean</li>
+</ol>
+<p><strong>Write once, run anywhere, reuse everywhere</strong><br>那么，对于这种类的要求有：<br>1、所有属性为private<br>2、提供默认构造方法<br>3、提供getter和setter<br>4、实现serializable接口<br>JavaBean可分为两种：<br>一种是有用户界面（UserInterface）的JavaBean；<br>一种是没有用户界面，主要负责处理事务（如数据运算，操纵数据库）的JavaBean。JSP通常访问的是后一种JavaBean。</p>
 <p>客户端+jsp+bean+数据库<br>到<br>客户端+servlet+jsp+数据库</p>
-<p>J2EE<br>要事务、要安全、要分布式、要高可用（解耦）<br>只关注业务逻辑， 不处理‘低级’的事务（多线程，连接池，以及其他各种各种的‘低级’API） 提供集群功能<br>添加了<br>jdbc（数据库连接）<br>JNDI（命名及文档接口）<br>RMI（Remote method invocation远程方法调用）<br>RMS(消息服务)</p>
-<p>Spring<br>太复杂了，要只写业务主要逻辑，剩下的事务及分布式处理应该分开<br>POJO<br>实际意义就是普通的JavaBeans（简单的实体类），特点就是支持业务逻辑的协助类。<br>POJO类的作用是方便程序员使用数据库中的数据表，对于程序员来说，可以很方便的将POJO类当作对象来进行使用，也可以方便的调用其get，set方法。<br>但不允许有业务方法,也不能携带有connection之类的方法，即不包含业务逻辑或持久逻辑等。<br>这里注意java bean和POJO的区别<br>简而言之，当一个Pojo可序列化，有一个无参的构造函数，使用getter和setter方法来访问属性时，他就是一个JavaBean。</p>
-<p>DI<br>依赖注入<br>反向获取bean<br>对于一个Bean 来说，如果你依赖别的Bean , 只需要声明即可， spring 容器负责把依赖的bean 给“注入进去“， 起初大家称之为控制反转(IoC)</p>
-<p>AOP<br>面向切面编程，主要用来插入事务、日志、安全等统一处理的逻辑<br>前置、后置、环绕<br>如果一个Bean 需要一些像事务，日志，安全这样的通用的服务， 也是只需要声明即可， spring 容器在运行时能够动态的“织入”这些服务， 这叫AOP。 </p>
-<p>让用户一开始就使用getSize，以便有朝一日修改getSize实现时，不破坏向后兼容性。这种public int getSize() { return size; }的惯用手法，就是Java Bean。</p>
-<p>在java1996年发布,当年12月即发布了java bean1.00-A,有什么用呢?通过统一的规范可以设置对象的值(get,set方法),这是最初的java bean;在实际企业开发中,需要实现事务,安全,分布式,javabean就不好用了.sun公司就开始往上面堆功能,这里java bean就复杂为EJB;EJB功能强大,但是太重了.此时出现DI(依赖注入),AOP(面向切面)技术,通过简单的java bean也能完成EJB的事情,这里的java bean简化为POJO;Spring诞生了.</p>
-<p>EJB（Enterprise Java Bean）企业 java bean<br>运行在一个独立的服务器上，并封装了业务逻辑的组件就是EJB<br>EJB 就是将那些”类”放到一个服务器上，用C/S 形式的软件客户端对服务器上的”类”进行调用。</p>
+<ol start="2">
+<li>J2EE</li>
+</ol>
+<p>要事务、要安全、要分布式、要高可用（解耦）<br>只关注业务逻辑， 不处理‘低级’的事务（多线程，连接池，以及其他各种各种的‘低级’API） 提供集群功能<br>添加了<br>jdbc（数据库连接）<br>JNDI（命名及文档接口）<br>RMI（Remote method invocation远程方法调用）<br>RMS(消息服务)</p>
+<ol start="3">
+<li>Spring</li>
+</ol>
+<p>太复杂了，要只写业务主要逻辑，剩下的事务及分布式处理应该分开<br>POJO<br>实际意义就是普通的JavaBeans（简单的实体类），特点就是支持业务逻辑的协助类。<br>POJO类的作用是方便程序员使用数据库中的数据表，对于程序员来说，可以很方便的将POJO类当作对象来进行使用，也可以方便的调用其get，set方法。<br>但不允许有业务方法,也不能携带有connection之类的方法，即不包含业务逻辑或持久逻辑等。<br>这里注意java bean和POJO的区别<br>简而言之，当一个Pojo可序列化，有一个无参的构造函数，使用getter和setter方法来访问属性时，他就是一个JavaBean。</p>
+<ol start="4">
+<li>EJB（Enterprise Java Bean）企业 java bean</li>
+</ol>
+<p>运行在一个独立的服务器上，并封装了业务逻辑的组件就是EJB<br>EJB 就是将那些”类”放到一个服务器上，用C/S 形式的软件客户端对服务器上的”类”进行调用。</p>
 <p>在Java中，能够实现远程对象调用的技术是RMI，而EJB 技术基础正是RMI。通过RMI 技术，J2EE将EJB 组件创建为远程对象，客户端就可以通过网络调用EJB 对象了。</p>
 <p>RMI （remote method invocation）远程方法调用<br>序列化+Remote Procedure Call 远程过程调用</p>
 <p>a.EJB实现原理： 就是把原来放到客户端实现的代码放到服务器端，并依靠RMI进行通信。</p>
 <p>b.RMI实现原理 ：就是通过Java对象可序列化机制实现分布计算。</p>
 <p>c.服务器集群： 就是通过RMI的通信，连接不同功能模块的服务器，以实现一个完整的功能</p>
+<ul>
+<li>AOP</li>
+</ul>
+<p>面向切面编程，主要用来插入事务、日志、安全等统一处理的逻辑<br>前置、后置、环绕<br>如果一个Bean 需要一些像事务，日志，安全这样的通用的服务， 也是只需要声明即可， spring 容器在运行时能够动态的“织入”这些服务， 这叫AOP。 </p>
+<ul>
+<li>DI （依赖注入）:</li>
+</ul>
+<p>让用户一开始就使用getSize，以便有朝一日修改getSize实现时，不破坏向后兼容性。这种public int getSize() { return size; }的惯用手法，就是Java Bean。</p>
+<p>在java1996年发布,当年12月即发布了java bean1.00-A,有什么用呢?通过统一的规范可以设置对象的值(get,set方法),这是最初的java bean;在实际企业开发中,需要实现事务,安全,分布式,javabean就不好用了.sun公司就开始往上面堆功能,这里java bean就复杂为EJB;EJB功能强大,但是太重了.此时出现DI(依赖注入),AOP(面向切面)技术,通过简单的java bean也能完成EJB的事情,这里的java bean简化为POJO;Spring诞生了.</p>
 <p>对于一个Bean 来说，如果你依赖别的Bean , 只需要声明即可， spring 容器负责把依赖的bean 给“注入进去“， 起初大家称之为控制反转(IoC)</p>
 <p>后来 Martin flower 给这种方式起来个更好的名字，叫“依赖注入”。</p>
-<p>其实IoC对编程带来的最大改变不是从代码上，而是从思想上，发生了“主从换位”的变化。应用程序原本是老大，要获取什么资源都是主动出击，但是在IoC/DI思想中，应用程序就变成被动的了，被动的等待IoC容器来创建并注入它所需要的资源了。</p>
-<p>IoC很好的体现了面向对象设计法则之一—— 好莱坞法则：“别找我们，我们找你”；即由IoC容器帮对象找相应的依赖对象并注入，而不是由对象主动去找。</p>
-<p>DI AOP</p>
-<p>IOC（控制反转）：</p>
-<p>“别找我们，我们找你”—由IoC容器帮对象找相应的依赖对象并注入，而不是由对象主动去找。</p>
-<p>Spring所倡导的开发方式就是如此，所有的类都会在spring容器中登记，告诉spring你是个什么东西，你需要什么东西，然后spring会在系统运行到适当的时候，把你要的东西主动给你，同时也把你交给其他需要你的东西。所有的类的创建、销毁都由spring来控制，也就是说控制对象生存周期的不再是引用它的对象，而是spring。对于某个具体的对象而言，以前是它控制其他对象，现在是所有对象都被spring控制，所以这叫控制反转。</p>
-<p>DI （依赖注入）:</p>
-<p>“依赖注入”———“被注入对象依赖IoC容器配置依赖对象”。</p>
-<p> Java1.3之后一个重要特征是反射（reflection），它允许程序在运行的时候动态的生成对象、执行对象的方法、改变对象的属性，spring就是通过反射来实现注入的。</p>
-<p>IArpCalculateService calculateService = (IArpCalculateService)ComponentFactory.getBean(“calculateService”);</p>
-<p>getApplicationContext().getBean(id)</p>
-<p>所以控制反转IoC(Inversion of Control)是说创建对象的控制权进行转移，以前创建对象的主动权和创建时机是由自己把控的，而现在这种权力转移到第三方，比如转移交给了IoC容器，它就是一个专门用来创建对象的工厂，你要什么对象，它就给你什么对象，有了 IoC容器，依赖关系就变了，原先的依赖关系就没了，它们都依赖IoC容器了，通过IoC容器来建立它们之间的关系。<br>DI(依赖注入)其实就是IOC的另外一种说法，DI是由Martin Fowler 在2004年初的一篇论文中首次提出的。他总结：控制的什么被反转了？就是：获得依赖对象的方式反转了。</p>
-<p>对象的创建发生变化<br>创建者由程序变为Spring、创建方式由new变成Spring创建<br>在业务中声明我是哪个类、需要哪个类，Spring会自动创建，用的时候向它要</p>
-<p>Spring Bean创建</p>
-<p>(1)空参数构造(重要)</p>
+<p>其实IoC对编程带来的最大改变不是从代码上，而是从思想上，发生了“<strong>主从换位</strong>”的变化。应用程序原本是老大，要获取什么资源都是主动出击，但是在IoC/DI思想中，应用程序就变成被动的了，被动的等待IoC容器来创建并注入它所需要的资源了。</p>
+<p>IoC很好的体现了面向对象设计法则之一—— 好莱坞法则：“<strong>别找我们，我们找你</strong>”；即由IoC容器帮对象找相应的依赖对象并注入，而不是由对象主动去找。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IArpCalculateService calculateService = (IArpCalculateService)ComponentFactory.getBean(<span class="string">&quot;calculateService&quot;</span>);</span><br><span class="line"></span><br><span class="line">getApplicationContext().getBean(id)</span><br></pre></td></tr></table></figure>
+<p>所以控制反转IoC(Inversion of Control)是说创建对象的控制权进行转移，以前创建对象的主动权和创建时机是由自己把控的，而现在这</p>
+<p>种权力转移到第三方，比如转移交给了IoC容器，它就是一个专门用来创建对象的工厂，你要什么对象，它就给你什么对象，有了 IoC容</p>
+<p>器，依赖关系就变了，原先的依赖关系就没了，它们都依赖IoC容器了，通过IoC容器来建立它们之间的关系。</p>
+<p>DI(依赖注入)其实就是IOC的另外一种说法，DI是由Martin Fowler 在2004年初的一篇论文中首次提出的。他总结：控制的什么被反转</p>
+<p>了？就是：获得依赖对象的方式反转了。</p>
+<p>对象的创建发生变化</p>
+<p>创建者由程序变为Spring、创建方式由new变成Spring创建</p>
+<p>在业务中声明我是哪个类、需要哪个类，Spring会自动创建，用的时候向它要</p>
+<h3 id="Spring-Bean创建"><a href="#Spring-Bean创建" class="headerlink" title="Spring Bean创建"></a>Spring Bean创建</h3><p>(1)空参数构造(重要)</p>
 <p>(2)静态工厂创建(调用静态方法创建)<br>调用UserFactory类的静态createUser方法创建名为user的对象,放入容器</p>
-<p><bean name="user" class="cn.itcats.UserFactory" factory-method="createUser"></bean></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span> <span class="attr">class</span>=<span class="string">&quot;cn.itcats.UserFactory&quot;</span> <span class="attr">factory-method</span>=<span class="string">&quot;createUser&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>(3)实例工厂创建(调用非静态方法创建)——需要配置两个bean，因为无法通过类名调用非静态方法</p>
-<p><bean name="user2" factory-bean="userFactory" factory-method="createUser"></bean></p>
-<p><bean name="userFactory" class="cn.itcats.UserFactory"></bean></p>
-<p>Spring Bean模式</p>
-<p>singleton：单例模式，Spring IoC容器中只会存在一个共享的Bean实例，无论有多少个Bean引用它，始终指向同一对象。Singleton作用域是Spring中的缺省作用域，也可以显示的将Bean定义为singleton模式，配置为：<br><bean id="userDao" class="com.ioc.UserDaoImpl" scope="singleton"/></p>
-<p>prototype:原型模式，每次通过Spring容器获取prototype定义的bean时，容器都将创建一个新的Bean实例，每个Bean实例都有自己的属性和状态，而singleton全局只有一个对象。根据经验，对有状态的bean使用prototype作用域，而对无状态的bean使用singleton作用域。</p>
-<p>request：在一次Http请求中，容器会返回该Bean的同一实例。而对不同的Http请求则会产生新的Bean，而且该bean仅在当前Http Request内有效。<br><bean id="loginAction" class="com.cnblogs.Login" scope="request"/>,针对每一次Http请求，Spring容器根据该bean的定义创建一个全新的实例，且该实例仅在当前Http请求内有效，而其它请求无法看到当前请求中状态的变化，当当前Http请求结束，该bean实例也将会被销毁。</p>
-<p>session：在一次Http Session中，容器会返回该Bean的同一实例。而对不同的Session请求则会创建新的实例，该bean实例仅在当前Session内有效。<br><bean id="userPreference" class="com.ioc.UserPreference" scope="session"/>,同Http请求相同，每一次session请求创建新的实例，而不同的实例之间不共享属性，且实例仅在自己的session请求内有效，请求结束，则实例将被销毁。</p>
-<p>global Session：在一个全局的Http Session中，容器会返回该Bean的同一个实例，仅在使用portlet context时有效。</p>
-<p>FactoryBean 和 BeanFactory区别</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;user2&quot;</span> <span class="attr">factory-bean</span>=<span class="string">&quot;userFactory&quot;</span> <span class="attr">factory-method</span>=<span class="string">&quot;createUser&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">&quot;userFactory&quot;</span> <span class="attr">class</span>=<span class="string">&quot;cn.itcats.UserFactory&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Spring-Bean模式"><a href="#Spring-Bean模式" class="headerlink" title="Spring Bean模式"></a>Spring Bean模式</h3><p>singleton：<strong>单例模式</strong>，Spring IoC容器中只会存在一个共享的Bean实例，无论有多少个Bean引用它，始终指向同一对象。Singleton作用域是Spring中的缺省作用域，也可以显示的将Bean定义为singleton模式，配置为：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userDao&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.ioc.UserDaoImpl&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;singleton&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>prototype:<strong>原型模式</strong>，每次通过Spring容器获取prototype定义的bean时，容器都将创建一个新的Bean实例，每个Bean实例都有自己的属性和状态，而singleton全局只有一个对象。根据经验，对有状态的bean使用prototype作用域，而对无状态的bean使用singleton作用域。</p>
+<p><strong>request</strong>：在一次Http请求中，容器会返回该Bean的同一实例。而对不同的Http请求则会产生新的Bean，而且该bean仅在当前Http Request内有效。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loginAction&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.cnblogs.Login&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;request&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>针对每一次Http请求，Spring容器根据该bean的定义创建一个全新的实例，且该实例仅在当前Http请求内有效，而其它请求无法看到当前请求中状态的变化，当当前Http请求结束，该bean实例也将会被销毁。</p>
+<p><strong>session</strong>：在一次Http Session中，容器会返回该Bean的同一实例。而对不同的Session请求则会创建新的实例，该bean实例仅在当前Session内有效。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userPreference&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.ioc.UserPreference&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;session&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>,同Http请求相同，每一次session请求创建新的实例，而不同的实例之间不共享属性，且实例仅在自己的session请求内有效，请求结束，则实例将被销毁。</p>
+<p><strong>global Session</strong>：在一个全局的Http Session中，容器会返回该Bean的同一个实例，仅在使用portlet context时有效。</p>
+<ul>
+<li>FactoryBean 和 BeanFactory区别</li>
+</ul>
 
       
     </div>
@@ -526,8 +546,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -544,7 +573,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -555,7 +584,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -605,6 +634,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%94%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">演化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Bean%E5%88%9B%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">Spring Bean创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Bean%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">Spring Bean模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

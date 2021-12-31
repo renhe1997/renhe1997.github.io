@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="平衡二叉树B树B+树红黑树海量数据并发查询赫夫曼树(Huffman tree)。即带权路径长度最短的树），在数据压缩上有重要应用，提高了传输的有效性 应用场景：普通的二叉树，很难构成现实的应用场景，但因其简单，常用于学习研究平衡二叉树则是实际应用比较多的。常见于快速匹配、搜索等方面。常用的树有：AVL树、红黑树、B+树、Trie（字典）树。1、AVL树: 最早的平衡二叉树之一。应用相对其他数据结构">
+<meta name="description" content="常见树 平衡二叉树  B树  B+树  红黑树 ​    海量数据并发查询  赫夫曼树(Huffman tree)。即带权路径长度最短的树），在数据压缩上有重要应用，提高了传输的有效性   各种树的应用场景：普通的二叉树，很难构成现实的应用场景，但因其简单，常用于学习研究 平衡二叉树则是实际应用比较多的。常见于快速匹配、搜索等方面。 常用的树有：AVL树、红黑树、B+树、Trie（字典）树。  A">
 <meta property="og:type" content="article">
 <meta property="og:title" content="树">
 <meta property="og:url" content="http://example.com/undefined/%E6%A0%91/index.html">
 <meta property="og:site_name" content="巴卡玛卡">
-<meta property="og:description" content="平衡二叉树B树B+树红黑树海量数据并发查询赫夫曼树(Huffman tree)。即带权路径长度最短的树），在数据压缩上有重要应用，提高了传输的有效性 应用场景：普通的二叉树，很难构成现实的应用场景，但因其简单，常用于学习研究平衡二叉树则是实际应用比较多的。常见于快速匹配、搜索等方面。常用的树有：AVL树、红黑树、B+树、Trie（字典）树。1、AVL树: 最早的平衡二叉树之一。应用相对其他数据结构">
+<meta property="og:description" content="常见树 平衡二叉树  B树  B+树  红黑树 ​    海量数据并发查询  赫夫曼树(Huffman tree)。即带权路径长度最短的树），在数据压缩上有重要应用，提高了传输的有效性   各种树的应用场景：普通的二叉树，很难构成现实的应用场景，但因其简单，常用于学习研究 平衡二叉树则是实际应用比较多的。常见于快速匹配、搜索等方面。 常用的树有：AVL树、红黑树、B+树、Trie（字典）树。  A">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-12-31T02:40:30.412Z">
-<meta property="article:modified_time" content="2021-12-31T08:05:54.386Z">
+<meta property="article:modified_time" content="2021-12-31T08:53:43.404Z">
 <meta property="article:author" content="人和">
 <meta property="article:tag" content="基础梳理">
 <meta property="article:tag" content="数据结构">
@@ -352,7 +352,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  334
+                  336
                 </span>
               
 
@@ -389,10 +389,37 @@
       
 
       
-        <p>平衡二叉树<br>B树<br>B+树<br>红黑树<br>海量数据并发查询<br>赫夫曼树(Huffman tree)。即带权路径长度最短的树），在数据压缩上有重要应用，提高了传输的有效性</p>
-<p>应用场景：<br>普通的二叉树，很难构成现实的应用场景，但因其简单，常用于学习研究<br>平衡二叉树则是实际应用比较多的。常见于快速匹配、搜索等方面。<br>常用的树有：AVL树、红黑树、B+树、Trie（字典）树。<br>1、AVL树: 最早的平衡二叉树之一。应用相对其他数据结构比较少。windows对进程地址空间的管理用到了AVL树。<br>2、红黑树: 平衡二叉树，广泛用在C++的STL中。如map和set都是用红黑树实现的。还有Linux文件管理。<br>3、B/B+树: 用在磁盘文件组织 数据索引和数据库索引。<br>4、Trie树(字典树): 用在统计和排序大量字符串，如自动机、M数据库索引。</p>
-<p>普通二叉树的实现<br>注意：</p>
-<p>1.构造一个tree类，包含note节点内部类，添加删除节点方法、遍历方法，查找方法。<br>2.构造一个node节点类，包含数据、左右节点、对外的get()、set()方法、add()方法（用来添加新节点）、</p>
+        <h3 id="常见树"><a href="#常见树" class="headerlink" title="常见树"></a>常见树</h3><ul>
+<li><p>平衡二叉树</p>
+</li>
+<li><p>B树</p>
+</li>
+<li><p>B+树</p>
+</li>
+<li><p>红黑树</p>
+<p>​    海量数据并发查询</p>
+</li>
+<li><p>赫夫曼树(Huffman tree)。即带权路径长度最短的树），在数据压缩上有重要应用，提高了传输的有效性</p>
+</li>
+</ul>
+<h3 id="各种树的应用场景："><a href="#各种树的应用场景：" class="headerlink" title="各种树的应用场景："></a>各种树的应用场景：</h3><p>普通的二叉树，很难构成现实的应用场景，但因其简单，常用于学习研究</p>
+<p>平衡二叉树则是实际应用比较多的。常见于快速匹配、搜索等方面。</p>
+<p>常用的树有：AVL树、红黑树、B+树、Trie（字典）树。</p>
+<ol>
+<li><p>AVL树: 最早的平衡二叉树之一。应用相对其他数据结构比较少。windows对进程地址空间的管理用到了AVL树。</p>
+</li>
+<li><p>红黑树: 平衡二叉树，广泛用在C++的STL中。如map和set都是用红黑树实现的。还有Linux文件管理。</p>
+</li>
+<li><p>B/B+树: 用在磁盘文件组织 数据索引和数据库索引。</p>
+</li>
+<li><p>Trie树(字典树): 用在统计和排序大量字符串，如自动机、M数据库索引。</p>
+</li>
+</ol>
+<h3 id="普通二叉树的实现"><a href="#普通二叉树的实现" class="headerlink" title="普通二叉树的实现"></a>普通二叉树的实现</h3><p>注意：</p>
+<ol>
+<li>构造一个tree类，包含note节点内部类，添加删除节点方法、遍历方法，查找方法。</li>
+<li>构造一个node节点类，包含数据、左右节点、对外的get()、set()方法、add()方法（用来添加新节点）</li>
+</ol>
 
       
     </div>
@@ -489,8 +516,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -507,7 +543,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -518,7 +554,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -568,6 +604,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%A0%91"><span class="nav-number">1.</span> <span class="nav-text">常见树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E7%A7%8D%E6%A0%91%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">各种树的应用场景：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.</span> <span class="nav-text">普通二叉树的实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

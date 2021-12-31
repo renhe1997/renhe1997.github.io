@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="&#x2F;&#x2F; 锁：女；线程：男共享锁：一个锁可以多个线程占有一女多男 独占锁：一个锁只能有一个线程可以占有&#x2F;&#x2F; 一女一男，主体为锁 可重入锁：一个线程可以多次获得锁&#x2F;&#x2F; 一男多女ReentrantLockSyschronized 不可重入锁：一个线程只能获得一个锁&#x2F;&#x2F; 一男一女，主体为线程 公平锁：等待时间最长的线程获得锁 FairSync 非公平锁：优先级排序 NonfairSyncReentrantL">
+<meta name="description" content="锁：女；线程：男  共享锁：  一个锁可以多个线程占有一女多男  独占锁：  一个锁只能有一个线程可以占有一女一男，主体为锁  可重入锁：  一个线程可以多次获得锁一男多女ReentrantLockSyschronized  不可重入锁：  一个线程只能获得一个锁一男一女，主体为线程  公平锁：  等待时间最长的线程获得锁 FairSync  非公平锁：  优先级排序 NonfairSyncRee">
 <meta property="og:type" content="article">
-<meta property="og:title" content="并发基础">
+<meta property="og:title" content="并发基础二">
 <meta property="og:url" content="http://example.com/undefined/%E9%94%81%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/index.html">
 <meta property="og:site_name" content="巴卡玛卡">
-<meta property="og:description" content="&#x2F;&#x2F; 锁：女；线程：男共享锁：一个锁可以多个线程占有一女多男 独占锁：一个锁只能有一个线程可以占有&#x2F;&#x2F; 一女一男，主体为锁 可重入锁：一个线程可以多次获得锁&#x2F;&#x2F; 一男多女ReentrantLockSyschronized 不可重入锁：一个线程只能获得一个锁&#x2F;&#x2F; 一男一女，主体为线程 公平锁：等待时间最长的线程获得锁 FairSync 非公平锁：优先级排序 NonfairSyncReentrantL">
+<meta property="og:description" content="锁：女；线程：男  共享锁：  一个锁可以多个线程占有一女多男  独占锁：  一个锁只能有一个线程可以占有一女一男，主体为锁  可重入锁：  一个线程可以多次获得锁一男多女ReentrantLockSyschronized  不可重入锁：  一个线程只能获得一个锁一男一女，主体为线程  公平锁：  等待时间最长的线程获得锁 FairSync  非公平锁：  优先级排序 NonfairSyncRee">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-12-31T02:13:46.425Z">
-<meta property="article:modified_time" content="2021-12-31T08:16:06.533Z">
+<meta property="article:modified_time" content="2021-12-31T08:38:07.660Z">
 <meta property="article:author" content="人和">
 <meta property="article:tag" content="基础梳理">
 <meta property="article:tag" content="并发">
@@ -128,7 +128,7 @@
 
 
 
-  <title>并发基础 | 巴卡玛卡</title>
+  <title>并发基础二 | 巴卡玛卡</title>
   
 
 
@@ -282,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">并发基础</h1>
+          <h1 class="post-title" itemprop="name headline">并发基础二</h1>
         
 
         <div class="post-meta">
@@ -390,15 +390,39 @@
       
 
       
-        <p>// 锁：女；线程：男<br>共享锁：<br>一个锁可以多个线程占有<br>一女多男</p>
-<p>独占锁：<br>一个锁只能有一个线程可以占有<br>// 一女一男，主体为锁</p>
-<p>可重入锁：<br>一个线程可以多次获得锁<br>// 一男多女<br>ReentrantLock<br>Syschronized</p>
-<p>不可重入锁：<br>一个线程只能获得一个锁<br>// 一男一女，主体为线程</p>
-<p>公平锁：<br>等待时间最长的线程获得锁 FairSync</p>
-<p>非公平锁：<br>优先级排序 NonfairSync<br>ReentrantLock默认非公平锁</p>
+        <p>锁：女；线程：男</p>
+<ul>
+<li>共享锁：</li>
+</ul>
+<p>一个锁可以多个线程占有<br>一女多男</p>
+<ul>
+<li>独占锁：</li>
+</ul>
+<p>一个锁只能有一个线程可以占有<br>一女一男，主体为锁</p>
+<ul>
+<li>可重入锁：</li>
+</ul>
+<p>一个线程可以多次获得锁<br>一男多女<br>ReentrantLock<br>Syschronized</p>
+<ul>
+<li>不可重入锁：</li>
+</ul>
+<p>一个线程只能获得一个锁<br>一男一女，主体为线程</p>
+<ul>
+<li>公平锁：</li>
+</ul>
+<p>等待时间最长的线程获得锁 FairSync</p>
+<ul>
+<li>非公平锁：</li>
+</ul>
+<p>优先级排序 NonfairSync<br>ReentrantLock默认非公平锁</p>
 <p>ReentrantLock、ReadLock、WriteLock 是Lock接口最重要的三个实现类。对应了“可重入锁”、“读锁”和“写锁”</p>
-<p>乐观锁<br>基于CAS实现，总是认为数据不会被修改，对数据修改前，验证数据是否变动过，compare and swap<br>CAS利用CPU指令，从硬件层面保证了操作的原子性，以达到类似于锁的效果</p>
-<p>悲观锁</p>
+<ul>
+<li>乐观锁</li>
+</ul>
+<p>基于CAS实现，总是认为数据不会被修改，对数据修改前，验证数据是否变动过，compare and swap<br>CAS利用CPU指令，从硬件层面保证了操作的原子性，以达到类似于锁的效果</p>
+<ul>
+<li>悲观锁</li>
+</ul>
 
       
     </div>
@@ -515,7 +539,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -526,7 +550,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

@@ -280,7 +280,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/undefined/%E9%94%81%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" itemprop="url">并发基础</a></h1>
+                <a class="post-title-link" href="/undefined/%E9%94%81%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" itemprop="url">并发基础二</a></h1>
         
 
         <div class="post-meta">
@@ -385,11 +385,27 @@
       
         
           
-          // 锁：女；线程：男共享锁：一个锁可以多个线程占有一女多男
-独占锁：一个锁只能有一个线程可以占有// 一女一男，主体为锁
-可重入锁：一个线程可以多次获得锁// 一男多女ReentrantLockSyschronized
-不可重入锁：一个线程只能获得一个锁// 一男一女，主体为线程
-公平锁：等待时间
+          锁：女；线程：男
+
+共享锁：
+
+一个锁可以多个线程占有一女多男
+
+独占锁：
+
+一个锁只能有一个线程可以占有一女一男，主体为锁
+
+可重入锁：
+
+一个线程可以多次获得锁一男多女ReentrantLockSyschronized
+
+不可重入锁：
+
+一个线程只能获得一个锁一男一女，主体为线程
+
+公平锁：
+
+
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -568,8 +584,9 @@
       
         
           
-          内存分配情况Java程序最大可能占用内存 = -Xmx指定的最大堆内存大小 + 最大活跃线程数量*-Xss指定的每个线程栈内存大小 + -XX:MaxDirectMemorySize指定的最大直接内存大小 + MetaSpace大小
-其中new Object()是在堆上面分配，而Object o这个
+          内存分配情况Java程序最大可能占用内存 = *-Xmx指定的最大堆内存大小 + 最大活跃线程数量-Xss指定的每个线程栈内存大小 + -**
+XX:MaxDirectMemorySize指定的最大直接内存大小 + MetaSpace大小
+其中new Object()是在堆上面分配，而Object 
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -751,7 +768,7 @@
           1.设置用户名
 git config –global user.name ‘zhandehuang’
 2.设置用户名邮箱
-git config –global user.email ‘&#x69;&#x74;&#x5f;&#x7a;&#x64;&#104;&#x40;&#x31;&#x36;&#51
+git config –global user.email ‘&#x69;&#116;&#x5f;&#x7a;&#x64;&#x68;&#64;&#x31;&#x36;&#51;
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1071,7 +1088,7 @@ git config –global user.email ‘&#x69;&#x74;&#x5f;&#x7a;&#x64;&#104;&#x40;&#x
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  852
+                  854
                 </span>
               
 
@@ -1110,11 +1127,17 @@ git config –global user.email ‘&#x69;&#x74;&#x5f;&#x7a;&#x64;&#104;&#x40;&#x
       
         
           
-          ACIDA；Atomic，原子性，操作不可分割。整个事务要么执行，要么不执行，通过日志恢复机制配合回滚来保证。
-C: Consistent，一致性，执行成功/失败，前后状态一致，也是事务的根本追求。破坏一致性的场景常见有两个
+          ACID
+A；Atomic，原子性，操作不可分割。整个事务要么执行，要么不执行，通过日志恢复机制配合回滚来保证。
+
+C: Consistent，一致性，执行成功/失败，前后状态一致，也是事务的根本追求。
+破坏一致性的场景常见有两个
+
+
 
 事务执行异常/系统故障，原子性问题，日志恢复来解决
-并发问题，隔离性问题
+
+并发问题
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1303,173 +1326,16 @@ mq异步处理
 限流
 分布式锁
 
-页面静态化：活动页面绝大多数内容静态，不产生服务端的交互，过滤大部分无效请求
-CND:
+
+页面静态化
+
+活动页面绝大多数内容静态，不产生服务端的交互，过滤大部分无效请求
+
+C
           ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/undefined/%E7%A7%92%E6%9D%80%E9%97%AE%E9%A2%98/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/undefined/Untitled/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="人和">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/panda.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="巴卡玛卡">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/undefined/Untitled/" itemprop="url">未命名</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-12-31T09:13:45+08:00">
-                2021-12-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  323
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          杂文
-2.1.32.3. BIO,NIO,AIO 有什么区别交易对账的时候，文件读写就用BIO
-2.2.6. HashMap 和 HashSet区别
-Segment 实现了 ReentrantLock ,所以 Segment 是种可重入锁
-//队列//同步队列//，发现对象A的锁被别的线程占有，此时
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/undefined/Untitled/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -2052,6 +1918,192 @@ explain：执行过程分析type：联接类型　　　　system：表只有一
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/undefined/RocketMQ%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="人和">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/panda.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="巴卡玛卡">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/undefined/RocketMQ%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/" itemprop="url">RocketMQ基础架构整理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-08-09T17:30:02+08:00">
+                2021-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" itemprop="url" rel="index">
+                    <span itemprop="name">中间件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.7k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          优点
+高吞吐量，低延迟
+顺序消息
+分布式事务消息 
+consumer端tag过滤
+
+架构及各组件说明架构图如下：
+Name Server名称服务脱胎于Zookeeper,但3.0后精简，去掉了Master选举、分布式锁等保证强一致性的内容。变化后的Name Server是一个几乎无状态节点，可集群部
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/undefined/RocketMQ%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2104,7 +2156,7 @@ explain：执行过程分析type：联接类型　　　　system：表只有一
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2115,7 +2167,7 @@ explain：执行过程分析type：联接类型　　　　system：表只有一
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

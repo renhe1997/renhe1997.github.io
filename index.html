@@ -495,8 +495,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index">
-                    <span itemprop="name">架构基础概念</span>
+                  <a href="/categories/%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
+                    <span itemprop="name">架构基础</span>
                   </a>
                 </span>
 
@@ -526,7 +526,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  146
+                  145
                 </span>
               
 
@@ -565,7 +565,10 @@
       
         
           
-          微服务：把一个服务器中的众多服务，或好几台服务器中的众多服务，分类出来，解耦合出来，把他们类似的功能交给同一个集群来做，把互相耦合在一起的功能剥离出来，按业务，按功能来把他们作为一个个微服务放在服务器上，而这个服务器就只提供一个服务，或较少的服务。让一个超大的服务逻辑，解耦合为一个个小服务，均匀的分
+          概念把一个服务器中的众多服务，或好几台服务器中的众多服务，分类出来，解耦合出来，把他们类似的功能交给同一个集群来做，把互相耦
+合在一起的功能剥离出来。
+按业务/按功能来把他们作为一个个微服务放在服务器上，而这个服务器就只提供一个服务，或较少的服务。
+让一个超大的服务逻辑，解耦合为一个个小服务，均匀的
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -705,7 +708,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  334
+                  336
                 </span>
               
 
@@ -744,8 +747,21 @@
       
         
           
-          平衡二叉树B树B+树红黑树海量数据并发查询赫夫曼树(Huffman tree)。即带权路径长度最短的树），在数据压缩上有重要应用，提高了传输的有效性
-应用场景：普通的二叉树，很难构成现实的应用场景，但因其简单，常用于学习研究平衡二叉树则是实际应用比较多的。常见于快速匹配、搜索等方面。常用的树有：AV
+          常见树
+平衡二叉树
+
+B树
+
+B+树
+
+红黑树
+​    海量数据并发查询
+
+赫夫曼树(Huffman tree)。即带权路径长度最短的树），在数据压缩上有重要应用，提高了传输的有效性
+
+
+各种树的应用场景：普通的二叉树，很难构成现实的应用场景，但因其简单，常用于学习研究
+平衡二叉树则是实际应用比较
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -885,7 +901,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.3k
+                  2.1k
                 </span>
               
 
@@ -901,7 +917,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  8
+                  7
                 </span>
               
             </div>
@@ -925,7 +941,9 @@
         
           
           演化
-Java BeanWrite once, run anywhere, reuse everywhere那么，对于这种类的要求有：1、所有属性为private2、提供默认构造方法3、提供getter和setter4、实现serializable接口JavaBean可分为两种：一种是有用户界面（U
+Java Bean
+
+Write once, run anywhere, reuse everywhere那么，对于这种类的要求有：1、所有属性为private2、提供默认构造方法3、提供getter和setter4、实现serializable接口JavaBean可分为两种：一种是有用户界面
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1065,7 +1083,7 @@ Java BeanWrite once, run anywhere, reuse everywhere那么，对于这种类的�
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  774
+                  775
                 </span>
               
 
@@ -1104,10 +1122,16 @@ Java BeanWrite once, run anywhere, reuse everywhere那么，对于这种类的�
       
         
           
-          Springbean生命周期可以理解为四个部分：实例化、属性注入、初始化、销毁实例化中进行构造函数的调用属性注入时，扫描是否有实现BeanPostProcessor
+          Springbean生命周期
+可以理解为四个部分：实例化、属性注入、初始化、销毁
+实例化中进行构造函数的调用
+属性注入时，扫描是否有实现BeanPostProcessor
 对Bean的生命周期的控制，是Spring的精华
-实例化：createBeanInstance
-jvm加载进去的类，与spring产生
+
+实例化
+
+createBeanInstance
+jvm加载进去的类，与spr
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1247,7 +1271,7 @@ jvm加载进去的类，与spring产生
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  137
+                  139
                 </span>
               
 
@@ -1286,7 +1310,8 @@ jvm加载进去的类，与spring产生
       
         
           
-          在工具类中调用serviceSpring中的Service不是想new就能new的，因为通过new实例化的对象脱离了Spring容器的管理，获取不到注解的属性值，所以会是null,就算调用service的类中有@Component注解加入了Spring容器管理，也还是null.@Componentp
+          在工具类中调用serviceSpring中的Service不是想new就能new的，因为通过new实例化的对象脱离了Spring容器的管理，获取不到注解的属性值，所以会是null,就算调用service的类中有@Component注解加入了Spring容器管理，也还是null.
+1234567891
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1607,7 +1632,7 @@ jvm加载进去的类，与spring产生
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  99
+                  94
                 </span>
               
 
@@ -1646,7 +1671,14 @@ jvm加载进去的类，与spring产生
       
         
           
-          分布式事务：TCC 方案针对每个操作，都要注册一个与其对应的确认和补偿（撤销）操作Try 阶段：基础数据准备及查询、测试链接等Confirm 阶段：记录操作日志、改订单Cancel 阶段：回滚应用场景：跟支付、交易打交道，必须保证资金正确的场景。对于一致性要求高。
+          
+TCC 方案
+
+针对每个操作，都要注册一个与其对应的确认和补偿（撤销）操作Try 阶段：基础数据准备及查询、测试链接等Confirm 阶段：记录操作日志、改订单Cancel 阶段：回滚
+
+应用场景：
+
+跟支付、交易打交道，必须保证资金正确的场景。对于一致性要求高。
 
           
           <!--noindex-->
@@ -1971,7 +2003,7 @@ pro
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  42
+                  44
                 </span>
               
 
@@ -2010,7 +2042,15 @@ pro
       
         
           
-          总的来说，优先考虑分区。当分区不能满足需求时，开始考虑分表，合理的分表对效率的提升会优于分区。
+          
+分区
+
+分库
+
+分表
+
+
+优先考虑分区。当分区不能满足需求时，开始考虑分表，合理的分表对效率的提升会优于分区。
 
           
           <!--noindex-->
@@ -2105,7 +2145,7 @@ pro
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2116,7 +2156,7 @@ pro
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

@@ -87,7 +87,7 @@
 <meta property="og:description" content="在阿里的一篇关于提升代码质量的文章中，列举了很多低质量代码的特点，其中关于无设计这样写到: 整个代码看起来比较平淡，别人看了之后也从中学习不到内容。一般这种问题是没有深入分析问题，仅仅解决了问题，而没有考虑如何更好地解决问题，比如:  重复处理流程的工作是否可以抽象成一个通用的模板类。 不同处理类是否可以通过工厂类去获取具体的策略。 异步处理是否可以使用事件模式去处理。 对于新增加的能力能否通过自">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-08-19T09:10:00.185Z">
-<meta property="article:modified_time" content="2021-12-31T08:14:04.510Z">
+<meta property="article:modified_time" content="2021-12-31T08:50:33.829Z">
 <meta property="article:author" content="人和">
 <meta property="article:tag" content="实践案例">
 <meta name="twitter:card" content="summary">
@@ -391,12 +391,12 @@
         <p>在阿里的一篇关于提升代码质量的文章中，列举了很多低质量代码的特点，其中关于无设计这样写到:</p>
 <p>整个代码看起来比较平淡，别人看了之后也从中学习不到内容。<br>一般这种问题是没有深入分析问题，仅仅解决了问题，而没有考虑如何更好地解决问题，比如:</p>
 <ol>
-<li>重复处理流程的工作是否可以抽象成一个通用的模板类。</li>
-<li>不同处理类是否可以通过工厂类去获取具体的策略。</li>
+<li>重复处理流程的工作是否可以<strong>抽象成一个通用的模板类</strong>。</li>
+<li>不同处理类是否可以<strong>通过工厂类去获取具体的策略</strong>。</li>
 <li>异步处理是否可以使用事件模式去处理。</li>
-<li>对于新增加的能力能否通过自动注册去发现。</li>
+<li>对于新增加的能力能否通过<strong>自动注册</strong>去发现。</li>
 </ol>
-<p>适当的设计模式可以：<br>提高可读性、扩展性、可复用性，解耦合，使代码易于维护，放到实际的工程中，好的设计模式可以提高开发效率，减少无用代码的编写，可以实现“一鸡多吃”，比如N个子模块排列组合到一起，不同的组合策略，即策略模式。<br>有幸经历了一次服务重构的全过程，设计、开发、项目支持、以及扩展，截至写文章时，该重构后的服务已经在多个业务场景下稳定运行，结合之前的思考与资料，记录笔记如下。</p>
+<p>适当的设计模式可以：<br>提高可读性、扩展性、可复用性，解耦合，使代码易于维护，放到实际的工程中，好的设计模式可以提高开发效率，减少无用代码的编写，可以实现“<strong>一鸡多吃</strong>”，比如N个子模块排列组合到一起，不同的组合策略，即策略模式。<br>有幸经历了一次服务重构的全过程，设计、开发、项目支持、以及扩展，截至写文章时，该重构后的服务已经在多个业务场景下稳定运行，结合之前的思考与资料，记录笔记如下。</p>
 <h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p><strong><em>策略模式讨论的实际上是”如何解耦+如何分离等价逻辑块”</em></strong></p>
 
       
@@ -438,8 +438,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/undefined/Untitled/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
+              <a href="/undefined/%E7%A7%92%E6%9D%80%E9%97%AE%E9%A2%98/" rel="prev" title="秒杀">
+                秒杀 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -519,7 +519,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -530,7 +530,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

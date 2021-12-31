@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="分布式,架构,概念笔记,事务," />
+  <meta name="keywords" content="分布式,事务,架构,概念笔记," />
 
 
 
@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="分布式事务：TCC 方案针对每个操作，都要注册一个与其对应的确认和补偿（撤销）操作Try 阶段：基础数据准备及查询、测试链接等Confirm 阶段：记录操作日志、改订单Cancel 阶段：回滚应用场景：跟支付、交易打交道，必须保证资金正确的场景。对于一致性要求高。">
+<meta name="description" content="TCC 方案  针对每个操作，都要注册一个与其对应的确认和补偿（撤销）操作Try 阶段：基础数据准备及查询、测试链接等Confirm 阶段：记录操作日志、改订单Cancel 阶段：回滚  应用场景：  跟支付、交易打交道，必须保证资金正确的场景。对于一致性要求高。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="分布式事务">
 <meta property="og:url" content="http://example.com/undefined/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/index.html">
 <meta property="og:site_name" content="巴卡玛卡">
-<meta property="og:description" content="分布式事务：TCC 方案针对每个操作，都要注册一个与其对应的确认和补偿（撤销）操作Try 阶段：基础数据准备及查询、测试链接等Confirm 阶段：记录操作日志、改订单Cancel 阶段：回滚应用场景：跟支付、交易打交道，必须保证资金正确的场景。对于一致性要求高。">
+<meta property="og:description" content="TCC 方案  针对每个操作，都要注册一个与其对应的确认和补偿（撤销）操作Try 阶段：基础数据准备及查询、测试链接等Confirm 阶段：记录操作日志、改订单Cancel 阶段：回滚  应用场景：  跟支付、交易打交道，必须保证资金正确的场景。对于一致性要求高。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-12-31T02:30:03.697Z">
-<meta property="article:modified_time" content="2021-12-31T08:04:38.569Z">
+<meta property="article:modified_time" content="2021-12-31T08:40:35.653Z">
 <meta property="article:author" content="人和">
 <meta property="article:tag" content="分布式">
+<meta property="article:tag" content="事务">
 <meta property="article:tag" content="架构">
 <meta property="article:tag" content="概念笔记">
-<meta property="article:tag" content="事务">
 <meta name="twitter:card" content="summary">
 
 
@@ -354,7 +354,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  99
+                  94
                 </span>
               
 
@@ -391,7 +391,14 @@
       
 
       
-        <p>分布式事务：<br>TCC 方案<br>针对每个操作，都要注册一个与其对应的确认和补偿（撤销）操作<br>Try 阶段：基础数据准备及查询、测试链接等<br>Confirm 阶段：记录操作日志、改订单<br>Cancel 阶段：回滚<br>应用场景：<br>跟支付、交易打交道，必须保证资金正确的场景。<br>对于一致性要求高。</p>
+        <ul>
+<li>TCC 方案</li>
+</ul>
+<p>针对每个操作，都要注册一个与其对应的确认和补偿（撤销）操作<br>Try 阶段：基础数据准备及查询、测试链接等<br>Confirm 阶段：记录操作日志、改订单<br>Cancel 阶段：回滚</p>
+<ul>
+<li>应用场景：</li>
+</ul>
+<p>跟支付、交易打交道，必须保证资金正确的场景。<br>对于一致性要求高。</p>
 
       
     </div>
@@ -411,11 +418,11 @@
           
             <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag"># 分布式</a>
           
+            <a href="/tags/%E4%BA%8B%E5%8A%A1/" rel="tag"># 事务</a>
+          
             <a href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag"># 架构</a>
           
             <a href="/tags/%E6%A6%82%E5%BF%B5%E7%AC%94%E8%AE%B0/" rel="tag"># 概念笔记</a>
-          
-            <a href="/tags/%E4%BA%8B%E5%8A%A1/" rel="tag"># 事务</a>
           
         </div>
       
@@ -510,7 +517,7 @@
             
               <div class="site-state-item site-state-posts">
                 <a href="/archives">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -521,7 +528,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
